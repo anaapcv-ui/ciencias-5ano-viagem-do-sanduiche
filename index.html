@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Viagem do Sanduíche — Ciências 5º ano</title>
+<style>
+:root{
+  --fundo:#fff7ec; --papel:#fffdf8; --onu:#e08a2b; --onu2:#a8650f; --girassol:#f7cf5c; --girassol2:#c99a12;
+  --retalho:#ef6b55; --retalho2:#c2412c; --verde:#49a94a; --verde2:#2f7d31; --lilas:#8e5bd0;
+  --ceu:#3aa6e0; --ceu2:#1f79ad; --sangue:#d93b30; --fio2:#a8650f;
+  --tinta:#33302b; --cinza:#7e7a72; --linha:#f1dfc3; --ok:#1fa45b; --erro:#e0453a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Trebuchet MS","Segoe UI",Verdana,sans-serif;background:var(--fundo);color:var(--tinta);font-size:18px;line-height:1.5}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+.topo{background:repeating-linear-gradient(45deg,#ffeccd 0 14px,#ffe3b8 14px 28px);text-align:center;padding:12px 10px 8px;border-bottom:4px dashed var(--onu2)}
+.topo h1{margin:4px 0;font-size:1.75em;color:var(--onu2);letter-spacing:.5px}
+.topo p{margin:2px 0;color:#5f5a52;font-size:.9em}
+.colcha{display:grid;grid-template-columns:repeat(11,minmax(0,40px));justify-content:center;gap:3px;padding:10px 6px;background:var(--papel);border-bottom:3px dashed var(--linha)}
+.ret{aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.15em;line-height:1;background:#ece8e2;border:2px dashed #cfc7bb;filter:grayscale(1);opacity:.6;transition:all .6s}
+.ret small{font-size:.5em;color:var(--cinza);margin-top:2px}
+.ret.costurado{filter:none;opacity:1;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 2px var(--c);animation:pisca 1.2s ease 1}
+.ret.costurado small{color:#fff}
+@keyframes pisca{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+nav.abas{position:sticky;top:0;z-index:20;background:#fff;box-shadow:0 2px 8px #0001;display:flex;gap:6px;overflow-x:auto;padding:8px}
+nav.abas button{flex:0 0 auto;border:2px solid var(--linha);background:#fff;border-radius:14px;padding:8px 12px;font-weight:bold;color:var(--tinta);position:relative}
+nav.abas button.ativa{background:var(--onu);border-color:var(--onu2);color:#fff}
+nav.abas button.trancada{background:#eee;color:#999;border-color:#ddd}
+nav.abas button .selo{position:absolute;top:-8px;right:-6px;background:var(--girassol);color:#5a3d00;border-radius:10px;font-size:.62em;padding:1px 6px}
+main{max-width:860px;margin:0 auto;padding:14px 12px 80px}
+section.aba{display:none}
+section.aba.ativa{display:block;animation:entra .35s ease}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:#fff;border-radius:18px;padding:16px 18px;margin:14px 0;box-shadow:0 3px 0 var(--linha),0 4px 14px #0000000d;border:2px solid var(--linha)}
+h2{color:var(--onu2);margin:.2em 0 .4em}
+h3{margin:.3em 0}
+.sub{color:var(--cinza);font-size:.88em}
+.btn{border:none;border-radius:14px;padding:10px 16px;font-weight:bold;color:#fff;background:var(--verde);box-shadow:0 3px 0 var(--verde2);margin:4px 2px}
+.btn:disabled{background:#c9c4cc;box-shadow:0 3px 0 #a9a3ad;cursor:not-allowed}
+.btn.fio{background:var(--onu);box-shadow:0 3px 0 var(--onu2)}
+.btn.faisca{background:var(--retalho);box-shadow:0 3px 0 var(--retalho2)}
+.btn.claro{background:#fff;color:var(--tinta);border:2px solid var(--linha);box-shadow:none}
+.trilha{display:grid;gap:10px}
+.etapa{display:flex;gap:12px;align-items:center;border-radius:16px;padding:12px 14px;border:2px solid var(--linha);background:#fff;text-align:left;width:100%;color:var(--tinta)}
+.etapa .ic{font-size:1.8em}
+.etapa.trancada{background:#f1f0f2;color:#8d8892;filter:grayscale(1)}
+.etapa.feita{border-color:var(--ok)}
+.etapa.nova{animation:brilho 1.4s ease 3;border-color:var(--girassol)}
+@keyframes brilho{0%,100%{box-shadow:0 0 0 0 #f7cf5c00}50%{box-shadow:0 0 0 8px #f7cf5c88}}
+.tag{display:inline-block;border-radius:10px;padding:1px 8px;font-size:.75em;font-weight:bold;margin-left:4px}
+.tag.ok{background:#dff5e8;color:var(--ok)}
+.tag.novo{background:#fff1c2;color:#7a5600}
+.tag.lock{background:#e7e5ea;color:#6b6670}
+.barra{height:14px;background:#eee;border-radius:10px;overflow:hidden;margin:6px 0}
+.barra>div{height:100%;background:linear-gradient(90deg,var(--onu),var(--ceu),var(--sangue));width:0;transition:width .4s}
+.bloco{border-left:8px solid var(--c,var(--verde))}
+.bloco.fechado .corpo{display:none}
+.bloco .cab{display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer}
+.bloco.trancado{opacity:.55}
+.caixa{background:#fff8e3;border:2px dashed var(--girassol);border-radius:12px;padding:8px 12px;margin:10px 0;font-size:.92em}
+.regra{background:#eef6ff;border:2px solid #cfe3fb;border-radius:12px;padding:8px 12px;margin:8px 0}
+.exemplo{background:#effaf3;border:2px solid #c7ecd6;border-radius:12px;padding:8px 12px;margin:8px 0}
+.fala{background:#fff1ef;border-left:5px solid var(--retalho);border-radius:0 12px 12px 0;padding:6px 12px;margin:8px 0;font-style:italic}
+.quadro{width:100%;border-collapse:collapse;margin:8px 0;font-size:.95em}
+.quadro td{border:2px solid #f0ddbe;padding:6px 8px;vertical-align:top}
+.quadro td.ano{background:#fdefd6;color:#a8650f;font-weight:bold;text-align:center;width:120px}
+.pergunta{margin:14px 0 6px;padding-top:10px;border-top:2px dotted var(--linha)}
+.opcoes{display:grid;gap:6px}
+.op{text-align:left;border:2px solid var(--linha);background:#fff;border-radius:12px;padding:8px 12px;color:var(--tinta)}
+.op:hover:not(:disabled){border-color:var(--onu)}
+.op.certa{background:#e3f7ea;border-color:var(--ok);font-weight:bold}
+.op.errada{background:#fde6e4;border-color:var(--erro)}
+.op.cinza{background:#f2f1f3;color:#777}
+.op.sel{background:#fff0dc;border-color:var(--onu);font-weight:bold}
+.op:disabled{cursor:default}
+.fb{border-radius:12px;padding:8px 12px;margin-top:6px;font-size:.92em;animation:entra .3s}
+.fb.ok{background:#e3f7ea}
+.fb.no{background:#fff0e0}
+.estrelas{font-size:1.2em}
+.mapa{position:relative}
+.mapa .centro{background:var(--onu);color:#fff;text-align:center;border-radius:50px;padding:14px;font-weight:bold;font-size:1.15em;margin:6px auto 14px;max-width:520px;box-shadow:0 4px 0 var(--onu2);border:3px dashed #fff}
+.ramos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ramo{border-radius:16px;padding:10px 12px;background:#fff;border:3px dashed var(--c);transition:filter .6s}
+.ramo h4{margin:0 0 6px;color:var(--c)}
+.mapa.incompleto .ramo{filter:saturate(.25)}
+.mapa.completo .ramo{animation:revela .8s ease}
+@keyframes revela{from{transform:scale(.96)}to{transform:none}}
+.no{margin:6px 0;font-size:.95em}
+.lacuna{display:inline-flex;gap:4px;vertical-align:middle;flex-wrap:wrap}
+.lacuna button{border:2px dashed var(--onu);background:#fff4e4;border-radius:10px;padding:2px 10px;font-weight:bold;color:var(--onu2)}
+.lacuna.feita span{display:inline-block;background:#e3f7ea;border:2px solid var(--ok);border-radius:10px;padding:2px 10px;font-weight:bold;color:var(--ok)}
+.lacuna button.erro{border-color:var(--erro);background:#fde6e4;color:var(--erro);animation:balanca .45s}
+@keyframes balanca{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.contador{position:sticky;top:58px;z-index:5;background:var(--retalho);color:#fff;border-radius:14px;padding:8px 12px;text-align:center;font-weight:bold;margin:8px 0}
+.vf-frase{font-size:1.2em;font-weight:bold;text-align:center;margin:14px 0;min-height:3em}
+.vf-bts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.vf-bts .btn{font-size:1.1em;padding:12px 22px}
+.linha-tempo{position:relative;margin:8px 0 4px 10px;padding-left:22px;border-left:4px dashed var(--onu)}
+.marco{position:relative;margin:0 0 12px}
+.marco::before{content:"";position:absolute;left:-32px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--girassol);border:3px solid var(--onu2)}
+.marco b.ano{color:var(--retalho2)}
+.comp{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.col{border-radius:14px;padding:10px;border:2px dashed var(--c);background:#fff}
+.col h4{margin:0 0 4px;color:var(--c);text-align:center}
+.col ul{margin:4px 0;padding-left:18px;font-size:.95em}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.palavra{background:#fff;border:2px solid var(--linha);border-radius:12px;padding:8px 10px;font-size:.92em}
+.palavra b{color:var(--onu2)}
+.postits{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.postit{background:#fff59a;padding:12px;border-radius:4px;box-shadow:2px 3px 6px #0002;transform:rotate(-1deg);font-size:.95em}
+.postit:nth-child(even){transform:rotate(1.2deg);background:#dff0ff}
+.relampago button{width:100%;text-align:left}
+.resp-oculta{display:none;margin:4px 0 8px 10px;color:var(--verde2);font-weight:bold}
+.fundo-modal{position:fixed;inset:0;background:#33302bcc;display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.fundo-modal.aberto{display:flex}
+.modal{background:#fff;border-radius:20px;max-width:440px;width:100%;padding:20px;text-align:center;animation:entra .3s}
+.painel-salvar{font-size:.85em;color:var(--cinza)}
+input.codigo{font-size:1em;padding:8px 10px;border-radius:12px;border:2px solid var(--linha);width:170px;text-transform:uppercase}
+table.rel{width:100%;border-collapse:collapse;font-size:.88em}
+table.rel td,table.rel th{border-bottom:1px solid #eee;padding:5px;text-align:left;vertical-align:top}
+.gab-q{border-top:2px dotted var(--linha);padding-top:8px;margin-top:10px}
+.gab-op{border-radius:10px;padding:5px 10px;margin:4px 0;font-size:.92em}
+.gab-op.certa{background:#e3f7ea;border:2px solid var(--ok)}
+.gab-op.cinza{background:#f2f1f3;color:#666}
+.gab-op.marcada{outline:3px solid var(--onu)}
+.placar-final{text-align:center;font-size:1.3em}
+.trofeu{font-size:3em}
+footer{text-align:center;color:var(--cinza);font-size:.85em;padding:20px}
+@media (max-width:620px){body{font-size:16.5px}.topo h1{font-size:1.4em}.colcha{grid-template-columns:repeat(6,minmax(0,40px))}}
+</style>
+</head>
+<body>
+<header class="topo">
+  <div style="font-size:2em">🥪🦷🌬️❤️💧</div>
+  <h1>A Viagem do Sanduíche</h1>
+  <p><b>Ciências · 5º ano</b> · Prova de 11/11</p>
+  <p>Unidade 9: Digestão e respiração · Unidade 10: Circulação e excreção</p>
+</header>
+<div class="colcha" id="vila" title="Cada parada ganha cor quando você termina as perguntas dela na Leitura Guiada"></div>
+<nav class="abas" id="abas"></nav>
+<main>
+
+<!-- ============ INÍCIO ============ -->
+<section class="aba" id="sec-inicio">
+  <div class="card">
+    <h2>👋 Olá, jovem aprendiz!</h2>
+    <p>Eu sou o <b>Pão-Pão</b> 🥪, um sanduíche muito corajoso. Daqui a pouco alguém vai me dar uma mordida — e aí começa a <b>minha viagem</b> pelo corpo humano.</p>
+    <p>Vou passar pela boca, descer pelo tubo, virar pedacinhos bem pequenos, entrar no sangue, encontrar um gole de ar que chegou pelo nariz, virar <b>energia</b> dentro das células… e o que sobrar de mim vai embora pelo caminho da limpeza.</p>
+    <p>São <b>11 paradas</b>. Cada parada que você termina ganha cor lá em cima! 🎯</p>
+  </div>
+  <div class="card">
+    <h2>📋 O que vai cair na prova</h2>
+    <p><b>Unidade 9 – Digestão e respiração</b></p>
+    <ul>
+      <li>Construindo conhecimentos (livro p. 60 a 71): nutrição, sistema digestório, etapas da digestão, sistema respiratório, movimentos respiratórios, respiração celular e saúde</li>
+      <li>Mãos à obra! (p. 72 a 75)</li>
+      <li>O que eu aprendi (p. 76 e 77)</li>
+      <li>Exercícios / atividades complementares (p. 142 e 143)</li>
+    </ul>
+    <p><b>Unidade 10 – Circulação e excreção</b></p>
+    <ul>
+      <li>Construindo conhecimentos (p. 82 a 91): circulação, sangue, vasos sanguíneos, coração, caminho do sangue, filtração do sangue e formação da urina</li>
+      <li>Mãos à obra! (p. 92 e 93)</li>
+      <li>O que eu aprendi (p. 94 e 95)</li>
+      <li>Exercícios / atividades complementares (p. 144 e 145)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>🛤️ Sua trilha</h2>
+    <p class="sub">Os materiais abrem um por vez, na ordem. Conclua um para destravar o próximo.</p>
+    <div class="trilha" id="trilhaCards"></div>
+  </div>
+  <div class="card">
+    <h2>🧭 Como usar</h2>
+    <ol>
+      <li>Os materiais abrem <b>um por vez, na ordem</b>. Conclua um para destravar o próximo.</li>
+      <li>Leia cada parada com calma <b>antes</b> de responder.</li>
+      <li>Errou? Tudo bem! Leia a explicação e siga viagem. Errar aqui é treino.</li>
+      <li>Depois de terminar tudo, os materiais ficam abertos para revisar quantas vezes quiser.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h2>💾 Seu progresso</h2>
+    <p class="painel-salvar" id="painelSalvar">Seu progresso é salvo sozinho neste aparelho.</p>
+    <button class="btn claro" id="btExportar">📥 Exportar</button>
+    <button class="btn claro" id="btImportar">📤 Importar</button>
+    <button class="btn claro" id="btZerar">🗑️ Zerar tudo</button>
+    <input type="file" id="arqImportar" accept=".json,application/json" style="display:none">
+  </div>
+  <div class="card">
+    <h2>📊 Relatório para os pais</h2>
+    <p class="sub">Digite o código do Simulado (SIM-…) ou o código da família.</p>
+    <input class="codigo" id="codPais" placeholder="Código" autocomplete="off">
+    <button class="btn fio" id="btRelatorio">Abrir</button>
+    <div id="areaPais"></div>
+    <p class="sub" style="margin-top:10px">💡 <b>Dica para os pais:</b> o progresso fica no navegador deste aparelho. Se trocar de aparelho, use 📥 Exportar / 📤 Importar ou libere a trilha com o código da família.</p>
+  </div>
+</section>
+
+<!-- ============ LEITURA GUIADA ============ -->
+<section class="aba" id="sec-leitura">
+  <div class="card">
+    <h2>📖 Leitura Guiada — a viagem parada por parada</h2>
+    <p>Leia cada parada e responda as perguntas do fim. A próxima parada abre quando você responder as perguntas da anterior. Cada parada terminada <b>ganha cor</b> lá em cima! 🥪</p>
+    <div class="barra"><div id="barraLeitura"></div></div>
+    <p class="sub" id="txtLeitura"></p>
+  </div>
+  <div id="blocosLeitura"></div>
+  <div class="card" id="fimLeitura">
+    <h2>⚠️ 11 pegadinhas da viagem</h2>
+    <ol>
+      <li>A <b>faringe</b> é dos <b>dois</b> sistemas: por ela passam o alimento e o ar. Já a <b>laringe</b>, a <b>traqueia</b> e os <b>brônquios</b> são só do ar.</li>
+      <li><b>Epiglote</b> é a <b>válvula</b> que fecha a <b>laringe</b> quando engolimos. Epiglote e laringe não são a mesma coisa!</li>
+      <li>A <b>bile</b> é produzida pelo <b>fígado</b> (não pelo pâncreas) e atua na digestão das <b>gorduras</b>.</li>
+      <li><b>Intestino delgado</b> = onde ocorre a maior parte da <b>absorção dos nutrientes</b>. <b>Intestino grosso</b> = absorção de <b>água</b> e formação das <b>fezes</b>.</li>
+      <li>As <b>trocas gasosas</b> acontecem nos <b>alvéolos</b> pulmonares — não na traqueia nem no nariz.</li>
+      <li>Na <b>inspiração</b> os músculos intercostais e o diafragma se <b>contraem</b> e a caixa torácica <b>aumenta</b> de volume. Na <b>expiração</b> eles <b>relaxam</b> e ela <b>diminui</b>.</li>
+      <li>Respiração <b>pulmonar</b> ≠ respiração <b>celular</b>. A celular acontece <b>dentro das células</b> e transforma nutrientes + gás oxigênio em <b>energia</b> e gás carbônico.</li>
+      <li><b>Glóbulos vermelhos</b> (hemácias) = transportam gás <b>oxigênio</b>. <b>Glóbulos brancos</b> (leucócitos) = <b>defesa</b>. <b>Plaquetas</b> = <b>coagulação</b>. Não troque!</li>
+      <li><b>Artérias</b> levam o sangue <b>do coração para o corpo</b>. <b>Veias</b> trazem o sangue <b>de volta ao coração</b> e têm <b>valvas</b>. <b>Capilares</b> têm paredes <b>finas</b>.</li>
+      <li><b>Átrios</b> = cavidades de cima, paredes <b>mais finas</b>, <b>recebem</b> o sangue que as veias trazem. <b>Ventrículos</b> = cavidades de baixo, paredes <b>grossas</b>, <b>impulsionam</b> o sangue pelas artérias.</li>
+      <li><b>Ureter</b> ≠ <b>uretra</b>! Os <b>ureteres</b> levam a urina dos rins até a <b>bexiga urinária</b>; a <b>uretra</b> leva a urina para <b>fora</b> do corpo.</li>
+    </ol>
+    <h3>🗂️ Onde está cada assunto</h3>
+    <table class="rel">
+      <tr><th>Assunto da prova</th><th>Parada</th></tr>
+      <tr><td>O que é nutrição; digestão e respiração juntas (p. 58–60)</td><td>1 · A partida</td></tr>
+      <tr><td>Sistema digestório: tubo, órgãos anexos, movimento peristáltico (p. 61–62)</td><td>2 · O mapa da viagem</td></tr>
+      <tr><td>Ingestão: mastigação, dentição, saliva, bolo alimentar, deglutição, epiglote (p. 63)</td><td>3 · A boca e a garganta</td></tr>
+      <tr><td>Transformação dos alimentos e absorção de nutrientes (p. 64)</td><td>4 · Estômago e intestino delgado</td></tr>
+      <tr><td>Formação das fezes; saúde do sistema digestório; salmonelose e botulismo (p. 65–66)</td><td>5 · Fim da linha e comida segura</td></tr>
+      <tr><td>Sistema respiratório e movimentos respiratórios (p. 67–68)</td><td>6 · O ar entra</td></tr>
+      <tr><td>Respiração pulmonar e celular; saúde do sistema respiratório (p. 70–71)</td><td>7 · Virando energia</td></tr>
+      <tr><td>Circulação, sistema cardiovascular, sangue e vasos sanguíneos (p. 82–85)</td><td>8 · A entrega</td></tr>
+      <tr><td>O coração e o caminho do sangue (p. 86–88)</td><td>9 · O motor</td></tr>
+      <tr><td>Filtração do sangue e formação da urina (p. 91)</td><td>10 · A limpeza</td></tr>
+      <tr><td>Tudo misturado</td><td>11 · Chegada (revisão geral)</td></tr>
+    </table>
+  </div>
+  <div class="card" style="text-align:center">
+    <button class="btn faisca" data-proximo="mapa">🧠 Próximo: Mapa Mental para encaixar</button>
+  </div>
+</section>
+
+<!-- ============ MAPA MENTAL ============ -->
+<section class="aba" id="sec-mapa">
+  <div class="card">
+    <h2>🧠 Mapa Mental para encaixar</h2>
+    <p>O mapa da viagem está com <b>peças faltando</b>. Em cada buraco, clique na palavra certa. Acertou? A peça fica verde. Errou? Ela balança e você tenta de novo.</p>
+  </div>
+  <div class="contador" id="contadorMapa">🧩 Mapa: 0 de 12 peças encaixadas</div>
+  <div class="mapa incompleto" id="mapa">
+    <div class="centro">🥪 A Viagem do Sanduíche (e do gole de ar)<br><span style="font-weight:normal;font-size:.85em">os quatro sistemas que nutrem e limpam o corpo</span></div>
+    <div class="ramos" id="ramosMapa"></div>
+  </div>
+  <div class="card" id="mapaFim" style="display:none;text-align:center">
+    <div class="trofeu">🧠</div>
+    <h2>Mapa completo!</h2>
+    <p>Foi você que montou esse mapa. Agora ele está inteiro e colorido!</p>
+  </div>
+  <div class="card" style="text-align:center">
+    <button class="btn faisca" data-proximo="vf">✅ Próximo: Verdadeiro ou Falso</button>
+  </div>
+</section>
+
+<!-- ============ VERDADEIRO OU FALSO ============ -->
+<section class="aba" id="sec-vf">
+  <div class="card" id="vfJogo"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn faisca" data-proximo="resumo">🗺️ Próximo: Resumo</button>
+  </div>
+</section>
+
+<!-- ============ RESUMO ============ -->
+<section class="aba" id="sec-resumo">
+  <div class="card">
+    <h2>🗺️ Resumo da Viagem</h2>
+    <p>Tudo o que cai na prova numa página só. Leia até o fim — lá embaixo tem um botão para marcar que você terminou.</p>
+  </div>
+
+  <div class="card">
+    <h2>🥪 O caminho do sanduíche, passo a passo</h2>
+    <div class="linha-tempo">
+      <div class="marco"><b class="ano">1. Boca</b> — <b>mastigação</b> (os dentes trituram) + <b>saliva</b> (umedece e quebra os <b>carboidratos</b>) = <b>bolo alimentar</b>.</div>
+      <div class="marco"><b class="ano">2. Faringe</b> — a <b>língua</b> empurra o bolo alimentar (isso é a <b>deglutição</b>). A <b>epiglote</b> fecha a laringe para o alimento não ir parar no sistema respiratório.</div>
+      <div class="marco"><b class="ano">3. Esôfago</b> — os <b>movimentos peristálticos</b> empurram o alimento para baixo.</div>
+      <div class="marco"><b class="ano">4. Estômago</b> — a parede produz substâncias que começam a digerir as <b>proteínas</b>.</div>
+      <div class="marco"><b class="ano">5. Intestino delgado</b> — recebe substâncias do <b>fígado</b> (a <b>bile</b>, que age nas <b>gorduras</b>), do <b>pâncreas</b> e dele mesmo. Aqui a digestão se completa e ocorre a <b>absorção dos nutrientes</b> e de parte da água: eles passam para o <b>sangue</b>. As <b>dobras (pregas)</b> da parede aumentam a superfície e deixam a absorção mais eficiente.</div>
+      <div class="marco"><b class="ano">6. Intestino grosso</b> — continua a absorção de <b>água</b> e ocorre a formação das <b>fezes</b>.</div>
+      <div class="marco"><b class="ano">7. Ânus</b> — as fezes são eliminadas.</div>
+    </div>
+    <h3 style="margin-top:12px">🌬️ O caminho do ar</h3>
+    <div class="linha-tempo" style="border-left-color:var(--ceu)">
+      <div class="marco"><b class="ano">Vias respiratórias</b> — <b>cavidades nasais → faringe → laringe → traqueia → brônquios</b>.</div>
+      <div class="marco"><b class="ano">Pulmões</b> — textura esponjosa, formados pelos <b>alvéolos pulmonares</b>: saquinhos arredondados envoltos por vasos sanguíneos muito finos.</div>
+      <div class="marco"><b class="ano">Nos alvéolos</b> — as <b>trocas gasosas</b>: o gás <b>oxigênio</b> do ar passa para o sangue e o gás <b>carbônico</b> do sangue passa para o ar.</div>
+    </div>
+    <h3 style="margin-top:12px">❤️ O caminho do sangue</h3>
+    <div class="linha-tempo" style="border-left-color:var(--sangue)">
+      <div class="marco"><b class="ano">Sai do coração</b> por uma <b>artéria</b>, que se ramifica em vasos cada vez mais finos até formar os <b>capilares</b>.</div>
+      <div class="marco"><b class="ano">Nos órgãos</b> (intestinos, fígado, cérebro, músculos) os capilares entregam <b>gás oxigênio e nutrientes</b> às células e recolhem <b>gás carbônico e outros resíduos</b>.</div>
+      <div class="marco"><b class="ano">Volta ao coração</b> pelas <b>veias</b> — esse sangue é rico em <b>gás carbônico</b>.</div>
+      <div class="marco"><b class="ano">Vai aos pulmões</b> — lá o gás carbônico é eliminado e o gás oxigênio é absorvido.</div>
+      <div class="marco"><b class="ano">Volta ao coração</b> rico em gás oxigênio e é impulsionado para todo o corpo de novo.</div>
+      <div class="marco"><b class="ano">Nos rins</b> — o sangue é <b>filtrado</b>: sais minerais, água em excesso e resíduos tóxicos (como a <b>ureia</b>) saem e formam a <b>urina</b>. Depois a urina vai pelos <b>ureteres</b> → <b>bexiga urinária</b> → <b>uretra</b> → fora do corpo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🍽️ O sistema digestório em duas colunas</h2>
+    <div class="comp">
+      <div class="col" style="--c:#e08a2b"><h4>🛣️ TUBO DIGESTÓRIO</h4><p class="sub">Por onde o alimento passa, nesta ordem:</p><ul><li>Boca</li><li>Faringe</li><li>Esôfago</li><li>Estômago</li><li>Intestino delgado</li><li>Intestino grosso</li><li>Ânus</li></ul></div>
+      <div class="col" style="--c:#8e5bd0"><h4>🧪 ÓRGÃOS ANEXOS</h4><p class="sub">Não são caminho: produzem substâncias que são liberadas no tubo.</p><ul><li>Glândulas salivares</li><li>Pâncreas</li><li>Fígado (produz a <b>bile</b>, que age nas gorduras)</li><li>Vesícula biliar</li></ul></div>
+    </div>
+    <div class="regra" style="margin-top:10px">📌 <b>Movimento peristáltico:</b> o esôfago, o estômago e os intestinos têm as paredes revestidas de <b>músculos</b> que se movimentam e <b>empurram</b> o alimento ao longo do tubo digestório — e ainda ajudam a <b>misturar</b> as substâncias digestivas ao alimento.</div>
+  </div>
+
+  <div class="card">
+    <h2>🩸 O sangue por dentro</h2>
+    <table class="quadro">
+      <tr><td class="ano">Plasma</td><td>Líquido de coloração <b>amarelada</b>, formado principalmente por <b>água</b>. Nele estão dissolvidas várias substâncias, como <b>nutrientes</b> e <b>gás carbônico</b>.</td></tr>
+      <tr><td class="ano">Glóbulos vermelhos<br>(hemácias)</td><td>Dão a <b>cor vermelha</b> ao sangue e <b>transportam o gás oxigênio</b>.</td></tr>
+      <tr><td class="ano">Glóbulos brancos<br>(leucócitos)</td><td>Células de diferentes tipos que <b>defendem o organismo</b> contra agentes estranhos, como bactérias e vírus.</td></tr>
+      <tr><td class="ano">Plaquetas</td><td><b>Fragmentos celulares</b> que atuam na <b>coagulação</b> do sangue (estancam o sangramento quando um vaso se rompe).</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🛣️ Os três tipos de vaso sanguíneo</h2>
+    <div class="comp">
+      <div class="col" style="--c:#d93b30"><h4>🔴 ARTÉRIAS</h4><ul><li>Levam o sangue <b>do coração</b> para outras partes do corpo</li><li>Se ramificam em vasos mais finos até formar os capilares</li></ul></div>
+      <div class="col" style="--c:#8e5bd0"><h4>🕸️ CAPILARES</h4><ul><li>Os <b>mais finos</b> de todos: paredes <b>finas</b></li><li>É por eles que o gás oxigênio e os nutrientes <b>chegam às células</b></li><li>Depois se juntam e formam as veias</li></ul></div>
+      <div class="col" style="--c:#3aa6e0"><h4>🔵 VEIAS</h4><ul><li>Levam o sangue <b>de volta ao coração</b></li><li>Têm <b>valvas</b>, que ajudam a encaminhar o sangue para o coração</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💓 As quatro cavidades do coração</h2>
+    <div class="comp">
+      <div class="col" style="--c:#3aa6e0"><h4>⬆️ ÁTRIOS (2, em cima)</h4><ul><li>Paredes <b>mais finas</b> que as dos ventrículos</li><li><b>Recebem</b> o sangue que as <b>veias</b> trazem do corpo e dos pulmões</li></ul></div>
+      <div class="col" style="--c:#d93b30"><h4>⬇️ VENTRÍCULOS (2, embaixo)</h4><ul><li>Paredes <b>grossas</b></li><li><b>Impulsionam</b> o sangue para todo o corpo, inclusive para os pulmões, pelas <b>artérias</b></li></ul></div>
+    </div>
+    <div class="regra" style="margin-top:10px">📌 Entre o átrio e o ventrículo de cada lado há <b>valvas</b>: estruturas como fendas que <b>abrem e fecham</b>, controlando o fluxo de sangue. O coração fica no <b>centro do tórax, entre os pulmões</b>, e bate cerca de <b>70 vezes por minuto</b> num adulto em repouso. Dá para sentir a pulsação nas <b>têmporas</b>, na <b>lateral do pescoço</b> ou no <b>punho</b>.</div>
+  </div>
+
+  <div class="card">
+    <h2>🦠 Duas doenças do sistema digestório</h2>
+    <table class="quadro">
+      <tr><td class="ano">Salmonelose</td><td>Causada pelas bactérias <b>Salmonella</b>, transmitidas pela ingestão de <b>ovos e carne de frango crus ou malcozidos</b>. Sintomas: fortes <b>dores abdominais</b> e <b>febre</b>. Prevenção: <b>cozimento adequado</b> e lavar bem as mãos e os utensílios antes e depois de manipular esses alimentos.</td></tr>
+      <tr><td class="ano">Botulismo</td><td>Causado por uma <b>toxina</b> produzida pela bactéria <b>Clostridium botulinum</b>. Alimentos mais comuns: <b>conservas vegetais</b> (palmito, picles), principalmente as artesanais. Sintomas: náuseas, vômitos, <b>visão turva</b> e dificuldade de engolir. Pode levar à morte. Prevenção: não consumir latas enferrujadas, furadas ou vencidas; higiene nas conservas caseiras; <b>ferver</b> conservas de origem não confiável; mel em recipiente limpo e abaixo de 15 °C e <b>nunca</b> para crianças com menos de 1 ano.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🤧 Saúde do sistema respiratório</h2>
+    <div class="comp">
+      <div class="col" style="--c:#ef6b55"><h4>🦠 GRIPE</h4><ul><li>Causada por variações do <b>vírus influenza</b></li><li>Muito <b>contagiosa</b>: pelo ar e principalmente pelo <b>contato físico</b></li><li>Sintomas: <b>febre</b>, dor de cabeça, dores musculares e tosse</li><li>Há <b>vacinas</b> que ajudam a prevenir</li></ul></div>
+      <div class="col" style="--c:#3aa6e0"><h4>🤒 RESFRIADO</h4><ul><li>Causado por <b>vírus de muitos tipos</b></li><li>Sintomas <b>mais brandos</b> que os da gripe: <b>coriza</b> (nariz escorrendo), dor de garganta e tosse</li></ul></div>
+      <div class="col" style="--c:#7e7a72"><h4>🏭 AR POLUÍDO</h4><ul><li>As substâncias <b>irritam</b> as vias respiratórias e os pulmões</li><li>Podem causar <b>inflamações</b> e facilitar a entrada de microrganismos</li><li>Combate: <b>combustíveis menos poluentes</b> e mais <b>arborização</b> (as árvores filtram partículas do ar)</li></ul></div>
+    </div>
+    <div class="regra" style="margin-top:10px">📌 <b>Como se prevenir:</b> evitar locais pouco ventilados e com aglomeração de pessoas, colocar o <b>braço na frente da boca</b> ao espirrar (assim as mãos não se contaminam) e <b>lavar as mãos</b> com frequência.</div>
+  </div>
+
+  <div class="card">
+    <h2>🔤 Palavras importantes</h2>
+    <div class="grade">
+      <div class="palavra"><b>Nutrição</b> — conjunto de processos pelos quais os organismos adquirem e utilizam os nutrientes necessários para suas atividades, eliminando o que não é útil ou pode ser tóxico.</div>
+      <div class="palavra"><b>Digestão</b> — processo de quebra dos alimentos em compostos menores, que podem ser absorvidos pelo corpo e aproveitados pelas células.</div>
+      <div class="palavra"><b>Ingestão</b> — a entrada dos alimentos no tubo digestório; começa na boca, com a mastigação e a deglutição.</div>
+      <div class="palavra"><b>Bolo alimentar</b> — a pasta formada pelo alimento triturado pela mastigação e umedecido pela saliva.</div>
+      <div class="palavra"><b>Deglutição</b> — o ato de engolir o bolo alimentar; a língua empurra o bolo em direção à faringe.</div>
+      <div class="palavra"><b>Epiglote</b> — válvula acima da laringe que a fecha quando engolimos, impedindo que o alimento vá para o sistema respiratório.</div>
+      <div class="palavra"><b>Engasgo</b> — acontece quando o fechamento da epiglote falha; tossir faz o alimento sair da laringe.</div>
+      <div class="palavra"><b>Movimento peristáltico</b> — movimento dos músculos das paredes do tubo digestório que empurra o alimento e mistura as substâncias digestivas a ele.</div>
+      <div class="palavra"><b>Bile</b> — substância produzida pelo fígado que atua na digestão das gorduras.</div>
+      <div class="palavra"><b>Absorção</b> — passagem dos nutrientes digeridos (e de parte da água) para o sangue, feita pelas células da parede do intestino delgado.</div>
+      <div class="palavra"><b>Alvéolos pulmonares</b> — pequenos sacos arredondados dos pulmões, envoltos por vasos sanguíneos muito finos, onde ocorrem as trocas gasosas.</div>
+      <div class="palavra"><b>Trocas gasosas</b> — o gás oxigênio do ar passa para o sangue e o gás carbônico do sangue passa para o ar.</div>
+      <div class="palavra"><b>Diafragma</b> — músculo abaixo dos pulmões que separa o tórax do abdome e participa dos movimentos respiratórios.</div>
+      <div class="palavra"><b>Inspiração</b> — entrada de ar: os músculos intercostais e o diafragma se contraem e a caixa torácica aumenta de volume.</div>
+      <div class="palavra"><b>Expiração</b> — saída de ar: os músculos intercostais e o diafragma relaxam e a caixa torácica diminui de volume.</div>
+      <div class="palavra"><b>Respiração celular</b> — processo dentro das células: elas usam o gás oxigênio para transformar os nutrientes em energia, produzindo também gás carbônico.</div>
+      <div class="palavra"><b>Circulação</b> — o sangue sai do coração, percorre os demais órgãos e retorna ao coração, transportando substâncias e encaminhando resíduos para fora.</div>
+      <div class="palavra"><b>Sistema cardiovascular</b> — formado pelo sangue, pelo coração e pelos vasos sanguíneos.</div>
+      <div class="palavra"><b>Valvas</b> — estruturas como fendas que abrem e fecham controlando o fluxo do sangue (no coração e nas veias).</div>
+      <div class="palavra"><b>Coagulação</b> — processo acionado quando um vaso se rompe, para estancar o sangramento; as plaquetas atuam nele.</div>
+      <div class="palavra"><b>Filtração</b> — nos rins, retirada do sangue de sais minerais, água em excesso e resíduos tóxicos, que juntos formam a urina.</div>
+      <div class="palavra"><b>Ureia</b> — resíduo tóxico retirado do sangue pelos rins, que faz parte da urina.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📌 Dicas de prova</h2>
+    <div class="postits">
+      <div class="postit">Tubo digestório em ordem: <b>boca → faringe → esôfago → estômago → intestino delgado → intestino grosso → ânus</b>.</div>
+      <div class="postit">Anexos (não são caminho): <b>glândulas salivares, pâncreas, fígado e vesícula biliar</b>.</div>
+      <div class="postit">Quem digere o quê: <b>saliva</b> → carboidratos · <b>estômago</b> → proteínas · <b>bile (fígado)</b> → gorduras.</div>
+      <div class="postit">Caminho do ar: <b>cavidades nasais → faringe → laringe → traqueia → brônquios → pulmões (alvéolos)</b>.</div>
+      <div class="postit">Inspiração: músculos <b>contraem</b>, tórax <b>aumenta</b>. Expiração: <b>relaxam</b>, tórax <b>diminui</b>.</div>
+      <div class="postit">Sangue: <b>plasma</b> (líquido) · <b>vermelhos</b> = oxigênio · <b>brancos</b> = defesa · <b>plaquetas</b> = coagulação.</div>
+      <div class="postit">Vasos: <b>artéria</b> sai do coração · <b>capilar</b> entrega nas células · <b>veia</b> volta ao coração.</div>
+      <div class="postit">Coração: <b>átrio recebe</b> (parede fina) · <b>ventrículo impulsiona</b> (parede grossa). <b>70</b> batimentos por minuto em repouso.</div>
+      <div class="postit">Nas ilustrações: <b>azul</b> = sangue rico em gás <b>carbônico</b> · <b>vermelho</b> = rico em gás <b>oxigênio</b>.</div>
+      <div class="postit">Urina: <b>rins → ureteres → bexiga urinária → uretra</b>. Bebeu muita água = urina <b>clara</b>; bebeu pouca = <b>amarelo escuro</b>.</div>
+    </div>
+  </div>
+
+  <div class="card relampago">
+    <h2>⚡ Mini-quiz relâmpago</h2>
+    <p class="sub">Pense na resposta e clique para conferir.</p>
+    <div id="relampago"></div>
+  </div>
+
+  <div class="card" style="text-align:center" id="fimResumo">
+    <p>Chegou até aqui? Então marque:</p>
+    <button class="btn" id="btLiResumo" disabled>✅ Li o resumo até o fim</button>
+    <p class="sub" id="txtLiResumo">O botão acende quando você chegar ao fim da página.</p>
+    <button class="btn faisca" data-proximo="simulado">📝 Pronto para o Simulado!</button>
+  </div>
+</section>
+
+<!-- ============ SIMULADO ============ -->
+<section class="aba" id="sec-simulado">
+  <div class="card">
+    <h2>📝 Simulado da Viagem</h2>
+    <p><b>25 questões</b>. Leia com atenção, marque uma alternativa em cada questão e clique em <b>Enviar</b> no final. Depois aparecem sua nota, seu código e o gabarito comentado.</p>
+    <div class="barra"><div id="barraSim"></div></div>
+    <p class="sub" id="txtSim"></p>
+  </div>
+  <div id="questoesSim"></div>
+  <div class="card" style="text-align:center" id="envioSim">
+    <button class="btn faisca" id="btEnviarSim">📨 Enviar Simulado</button>
+  </div>
+  <div id="resultadoSim"></div>
+</section>
+
+</main>
+<footer>🥪 A Viagem do Sanduíche · Ciências 5º ano · conteúdo do livro Phases Ciências 5 – Livro 2 (Unidades 9 e 10)</footer>
+
+<div class="fundo-modal" id="fundoModal"><div class="modal" id="modal"></div></div>
+<script>
+// ===================== DADOS (fonte: Phases Ciências 5 – Livro 2, P+: Un. 9 pp. 56-77 e 142-143; Un. 10 pp. 78-95 e 144-145) =====================
+const BLOCOS = [
+{ id:'b1', emoji:'🥪', titulo:'A partida', tema:'O que é nutrição · digestão e respiração trabalhando juntas', pag:'p. 58 a 60', cor:'#e08a2b',
+  html:`<p class="fala">Pão-Pão: "Oi! Antes de eu ser mordido, deixa eu te explicar por que você come e por que você respira. Spoiler: é pelo mesmo motivo!"</p>
+<p>A <b>nutrição</b> é o conjunto de processos pelos quais os organismos <b>adquirem e utilizam os nutrientes</b> necessários para suas atividades, <b>eliminando aquilo que não é útil</b> ou pode ser tóxico.</p>
+<p>Dois sistemas são responsáveis pela nutrição do corpo: o <b>sistema digestório</b> e o <b>sistema respiratório</b>.</p>
+<div class="regra">📌 Na <b>digestão</b>, os alimentos são quebrados em <b>partículas menores</b>, que são distribuídas por todo o corpo e utilizadas pelas <b>células</b>.</div>
+<div class="regra">📌 Na <b>respiração</b>, ao <b>inspirarmos</b>, os pulmões absorvem ar rico em <b>gás oxigênio</b>, que depois é distribuído para as células. Dentro das células, o gás oxigênio ajuda num processo que usa os <b>nutrientes</b> vindos da digestão e os transforma em <b>energia</b> e <b>gás carbônico</b>.</div>
+<p>A <b>energia</b> é usada pelo corpo para realizar suas atividades. Já o <b>gás carbônico</b> é transportado até os pulmões e depois liberado no ambiente, durante a <b>expiração</b>.</p>
+<div class="exemplo">🏃 <b>A experiência do livro:</b> contando as respirações por minuto <b>em repouso</b> e <b>depois de um minuto de polichinelos</b>, você descobre que a gente respira <b>mais vezes</b> depois da atividade física — porque gastamos <b>mais energia</b> e precisamos de mais gás oxigênio.</div>`,
+  palavras:['nutrição','nutrientes','sistema digestório','sistema respiratório','inspiração','expiração','gás oxigênio','gás carbônico','energia'],
+  qs:[
+   {q:'Segundo o livro, o que é nutrição?', o:[
+     {t:'O conjunto de processos pelos quais os organismos adquirem e utilizam os nutrientes, eliminando o que não é útil ou pode ser tóxico',ok:1,w:'Isso! Nutrição é adquirir, usar E eliminar o que não serve.'},
+     {t:'Somente o ato de mastigar e engolir a comida',w:'Mastigar e engolir é só o começo (a ingestão). A nutrição é o conjunto de todos os processos.'},
+     {t:'Somente a entrada de ar nos pulmões',w:'A entrada de ar é a inspiração. A nutrição envolve os dois sistemas: digestório e respiratório.'},
+     {t:'A quantidade de alimentos que uma pessoa come por dia',w:'Isso é a quantidade de comida. Nutrição é o conjunto de processos de adquirir e usar os nutrientes.'}]},
+   {q:'Quais são os dois sistemas responsáveis pela nutrição do corpo?', o:[
+     {t:'O sistema digestório e o sistema respiratório',ok:1,w:'Exatamente. Um traz os nutrientes, o outro traz o gás oxigênio.'},
+     {t:'O sistema digestório e o sistema urinário',w:'O sistema urinário elimina resíduos, mas o livro diz que a nutrição é feita pelo digestório e pelo respiratório.'},
+     {t:'O sistema respiratório e o sistema cardiovascular',w:'O cardiovascular transporta, mas o livro aponta digestório e respiratório como responsáveis pela nutrição.'},
+     {t:'O sistema urinário e o sistema cardiovascular',w:'Esses dois cuidam da circulação e da eliminação. A nutrição é do digestório com o respiratório.'}]},
+   {q:'O gás carbônico produzido dentro das células é eliminado do corpo em qual momento?', o:[
+     {t:'Na expiração, depois de ser transportado até os pulmões',ok:1,w:'Certo! Ele vai até os pulmões e sai quando expiramos.'},
+     {t:'Na inspiração, junto com o ar que entra',w:'Na inspiração o ar ENTRA, trazendo gás oxigênio. O gás carbônico sai na expiração.'},
+     {t:'Na digestão, junto com as fezes',w:'As fezes são restos de alimento. O gás carbônico sai pelos pulmões, na expiração.'},
+     {t:'Ele não é eliminado: fica guardado nas células',w:'Ele é liberado pelas células no sangue, levado aos pulmões e eliminado na expiração.'}]}
+  ]},
+
+{ id:'b2', emoji:'🗺️', titulo:'O mapa da viagem', tema:'Sistema digestório: tubo, órgãos anexos e movimento peristáltico', pag:'p. 61 e 62', cor:'#d2691e',
+  html:`<p class="fala">Pão-Pão: "Antes de embarcar, olha o mapa! Tem a estrada por onde eu vou passar e tem as fábricas que ficam do lado da estrada."</p>
+<p>A <b>digestão</b> é o processo de <b>quebra dos alimentos</b> em compostos menores, que podem ser absorvidos pelo corpo e aproveitados pelas células. Os produtos da digestão — os <b>nutrientes</b> — são transformados em <b>energia</b> e novas substâncias que nutrem o corpo.</p>
+<p>A digestão é resultado da ação do <b>sistema digestório</b>, que é composto do <b>tubo digestório</b> e de <b>órgãos anexos</b> a ele.</p>
+<div class="regra">🛣️ <b>Tubo digestório</b> (por onde o alimento passa, nesta ordem): <b>boca · faringe · esôfago · estômago · intestino delgado · intestino grosso · ânus</b>.</div>
+<div class="regra">🧪 <b>Órgãos anexos</b> (não são caminho — produzem substâncias essenciais que são liberadas no tubo): <b>glândulas salivares · pâncreas · fígado · vesícula biliar</b>.</div>
+<p>A digestão <b>começa na boca</b> e <b>termina no intestino grosso</b>, com a absorção de água e minerais.</p>
+<div class="caixa">🌀 <b>Movimento peristáltico:</b> o esôfago, o estômago e os intestinos têm as paredes revestidas de <b>músculos</b>, que se movimentam e <b>empurram o alimento</b> ao longo do tubo digestório. Esse movimento também ajuda a <b>misturar as substâncias digestivas</b> aos alimentos.</div>`,
+  palavras:['tubo digestório','órgãos anexos','movimento peristáltico','faringe','esôfago','vesícula biliar'],
+  qs:[
+   {q:'Qual alternativa lista SOMENTE estruturas do tubo digestório?', o:[
+     {t:'Esôfago, estômago, intestino delgado e intestino grosso',ok:1,w:'Boa! Todos eles fazem parte do caminho do alimento.'},
+     {t:'Boca, intestino grosso, glândulas salivares e traqueia',w:'As glândulas salivares são órgão anexo e a traqueia é do sistema respiratório.'},
+     {t:'Estômago, pulmão, esôfago e narinas',w:'Pulmão e narinas são do sistema respiratório.'},
+     {t:'Brônquios, laringe, estômago e pâncreas',w:'Brônquios e laringe são do sistema respiratório, e o pâncreas é órgão anexo.'}]},
+   {q:'O que é o movimento peristáltico?', o:[
+     {t:'O movimento dos músculos das paredes do tubo que empurra o alimento e ajuda a misturar as substâncias digestivas a ele',ok:1,w:'Isso mesmo! É o que faz o alimento andar pelo tubo.'},
+     {t:'O movimento do diafragma que enche os pulmões de ar',w:'Esse é um movimento respiratório. O peristáltico acontece no tubo digestório.'},
+     {t:'O movimento de abrir e fechar das valvas do coração',w:'Essas são as valvas do coração. O peristáltico é do tubo digestório.'},
+     {t:'O movimento da língua ao empurrar o bolo alimentar',w:'A língua ajuda na deglutição. O peristáltico é feito pelos músculos das paredes do tubo.'}]},
+   {q:'Uma dupla escreveu: "Órgãos anexos são aqueles por onde o alimento passa." O que está errado?', o:[
+     {t:'O alimento NÃO passa pelos órgãos anexos: eles produzem substâncias essenciais para a digestão, que são liberadas no tubo digestório',ok:1,w:'Perfeito. Anexo é fábrica, não estrada.'},
+     {t:'Nada está errado: a frase está correta',w:'Está errada. Quem o alimento percorre é o tubo digestório; os anexos só liberam substâncias nele.'},
+     {t:'O erro é que os órgãos anexos ficam fora do corpo',w:'Eles ficam dentro do corpo. O erro é dizer que o alimento passa por eles.'},
+     {t:'O erro é que só existe um órgão anexo',w:'São vários: glândulas salivares, pâncreas, fígado e vesícula biliar. O erro é dizer que o alimento passa por eles.'}]}
+  ]},
+
+{ id:'b3', emoji:'🦷', titulo:'A boca e a garganta', tema:'Ingestão: mastigação, dentição, saliva, bolo alimentar, deglutição e epiglote', pag:'p. 63', cor:'#ef6b55',
+  html:`<p class="fala">Pão-Pão: "Ai! Fui mordido! Agora eu viro uma pasta... e tem uma portinha que precisa fechar na hora certa, senão dá problema."</p>
+<p>A <b>ingestão</b> é a entrada de alimentos no tubo digestório e se inicia na <b>boca</b>. Nessa etapa ocorrem a <b>mastigação</b> e a <b>deglutição</b>.</p>
+<p>Na <b>mastigação</b>, o alimento é <b>triturado pelos dentes</b>. A <b>dentição</b> muda ao longo dos anos:</p>
+<div class="caixa">🦷 <b>Como a dentição muda:</b> os recém-nascidos <b>não têm dentes</b>; eles começam a aparecer alguns meses depois do nascimento. Por volta dos <b>3 anos</b>, a primeira dentição (chamada <b>decídua</b>) está completa. A substituição pela <b>dentição permanente</b> começa aproximadamente aos <b>7 anos</b> — e aí passamos alguns anos com uma <b>dentição mista</b>, que combina dentes decíduos e permanentes. Por volta dos <b>12 anos</b>, a dentição permanente está quase completa em muitas pessoas.</div>
+<p>Ao mesmo tempo que é triturado, o alimento é misturado à <b>saliva</b>, que além de umedecer contém substâncias que <b>quebram alguns nutrientes</b>. O alimento triturado e umedecido forma uma pasta chamada <b>bolo alimentar</b>.</p>
+<p>A <b>deglutição</b> é o ato de <b>engolir</b> o bolo alimentar. A <b>língua</b> ajuda, empurrando o bolo em direção à <b>faringe</b>.</p>
+<div class="regra">⚠️ A faringe se comunica com o <b>esôfago</b> e com a <b>laringe</b>, por onde passa o ar dos pulmões. Acima da laringe há uma válvula chamada <b>epiglote</b>, que <b>fecha a laringe quando engolimos</b> e impede que o alimento vá para o sistema respiratório. Quando esse fechamento falha, ocorre o <b>engasgo</b> — e o movimento de <b>tossir</b> faz o alimento sair da laringe.</div>`,
+  palavras:['ingestão','mastigação','dentição decídua','dentição mista','saliva','bolo alimentar','deglutição','epiglote','engasgo'],
+  qs:[
+   {q:'Qual é a função da epiglote?', o:[
+     {t:'Fechar a laringe quando engolimos, impedindo que o alimento vá para o sistema respiratório',ok:1,w:'Isso! É a válvula de segurança da garganta.'},
+     {t:'Triturar o alimento junto com os dentes',w:'Quem tritura são os dentes, na mastigação.'},
+     {t:'Produzir a saliva que umedece o alimento',w:'A saliva vem das glândulas salivares.'},
+     {t:'Empurrar o bolo alimentar em direção à faringe',w:'Quem empurra é a língua, na deglutição.'}]},
+   {q:'O que é o bolo alimentar?', o:[
+     {t:'A pasta formada pelo alimento triturado pela mastigação e umedecido pela saliva',ok:1,w:'Exato! É assim que o alimento sai da boca.'},
+     {t:'A pasta de nutrientes, água e restos que percorre o intestino delgado',w:'Essa pasta se forma no FINAL da digestão. O bolo alimentar se forma na boca.'},
+     {t:'As fezes formadas no intestino grosso',w:'As fezes se formam no intestino grosso, bem no fim do caminho.'},
+     {t:'O ar misturado com saliva que descemos ao engolir',w:'O bolo alimentar é feito de alimento + saliva, não de ar.'}]},
+   {q:'Uma criança de 9 anos tem alguns dentes de leite e alguns dentes permanentes. Como se chama essa dentição?', o:[
+     {t:'Dentição mista',ok:1,w:'Certo! A troca começa por volta dos 7 anos e por um tempo as duas convivem.'},
+     {t:'Dentição decídua',w:'A decídua é a primeira, completa por volta dos 3 anos, só com dentes de leite.'},
+     {t:'Dentição permanente',w:'A permanente fica quase completa por volta dos 12 anos, sem dentes de leite.'},
+     {t:'Dentição peristáltica',w:'Peristáltico é o movimento do tubo digestório, não um tipo de dentição.'}]}
+  ]},
+
+{ id:'b4', emoji:'⚗️', titulo:'Estômago e intestino delgado', tema:'Transformação dos alimentos e absorção dos nutrientes', pag:'p. 64', cor:'#c2412c',
+  html:`<p class="fala">Pão-Pão: "Agora sim: aqui eu viro pedacinhos tão pequenos que consigo entrar no sangue. É a parte mais importante da viagem!"</p>
+<p>A transformação dos alimentos em substâncias mais simples acontece por <b>processos diferentes</b> ao longo do tubo digestório:</p>
+<table class="quadro">
+<tr><td class="ano">Boca</td><td>Mastigação e adição de <b>saliva</b>, cujas substâncias digestivas atuam na quebra dos <b>carboidratos</b>.</td></tr>
+<tr><td class="ano">Estômago</td><td>Depois da deglutição, o alimento passa pelo esôfago e chega ao estômago. A <b>parede do estômago</b> produz substâncias que começam a digerir as <b>proteínas</b>.</td></tr>
+<tr><td class="ano">Intestino delgado</td><td>Os movimentos peristálticos impulsionam o alimento pré-digerido para cá. Nele, o alimento recebe mais substâncias digestivas produzidas pelo <b>fígado</b>, pelo <b>pâncreas</b> e pelo <b>próprio intestino</b>, <b>completando a digestão</b>. A <b>bile</b>, produzida pelo <b>fígado</b>, atua na digestão das <b>gorduras</b>.</td></tr>
+</table>
+<p>Ao final do processo de digestão é formada uma <b>pasta</b>, composta de nutrientes digeridos, água e componentes não digeridos, que percorre o intestino delgado.</p>
+<div class="regra">📌 <b>Absorção de nutrientes:</b> ao longo do <b>intestino delgado</b> ocorre a absorção dos nutrientes digeridos e de <b>parte da água</b>. A absorção é feita pelas <b>células da parede</b> do intestino delgado, e os nutrientes <b>passam para o sangue</b>.</div>
+<div class="caixa">🧻 <b>Por que a parede é cheia de dobras?</b> A parede interna do intestino delgado é repleta de pequenas <b>dobras (ou pregas)</b>, que <b>aumentam a superfície</b> do intestino em contato com os nutrientes, tornando a absorção <b>mais eficiente</b>.</div>`,
+  palavras:['carboidratos','proteínas','gorduras','bile','fígado','pâncreas','absorção','dobras (pregas)'],
+  qs:[
+   {q:'Qual órgão produz a bile e sobre o que ela atua?', o:[
+     {t:'O fígado produz a bile, que atua na digestão das gorduras',ok:1,w:'Isso! Bile = fígado = gorduras. Guarde essa trinca.'},
+     {t:'O pâncreas produz a bile, que atua na digestão das proteínas',w:'A bile é do fígado e age nas gorduras. As proteínas começam a ser digeridas no estômago.'},
+     {t:'O estômago produz a bile, que atua na digestão dos carboidratos',w:'Os carboidratos começam a ser quebrados pela saliva, na boca. A bile é do fígado.'},
+     {t:'A vesícula biliar produz a bile, que atua na quebra da água',w:'Quem produz a bile é o fígado — e a água não é digerida, é absorvida.'}]},
+   {q:'Em qual órgão começa a digestão das proteínas?', o:[
+     {t:'No estômago, cuja parede produz substâncias que começam a digeri-las',ok:1,w:'Certo! Na boca a saliva quebra carboidratos; as proteínas começam no estômago.'},
+     {t:'Na boca, pela ação da saliva',w:'Na boca a saliva atua na quebra dos carboidratos.'},
+     {t:'No intestino grosso, junto com a formação das fezes',w:'No intestino grosso ocorre absorção de água e formação das fezes.'},
+     {t:'No esôfago, durante os movimentos peristálticos',w:'O esôfago só transporta o alimento até o estômago.'}]},
+   {q:'Por que a parede interna do intestino delgado tem muitas dobras?', o:[
+     {t:'Porque elas aumentam a superfície em contato com os nutrientes, tornando a absorção mais eficiente',ok:1,w:'Exatamente: mais superfície, mais absorção.'},
+     {t:'Porque elas impedem que o alimento volte para o estômago',w:'O livro explica as dobras pela absorção, não por impedir o retorno.'},
+     {t:'Porque elas produzem a bile dentro do intestino',w:'A bile é produzida pelo fígado.'},
+     {t:'Porque elas transformam os nutrientes em fezes',w:'As fezes se formam no intestino grosso, com o que não foi absorvido nem digerido.'}]}
+  ]},
+
+{ id:'b5', emoji:'🚽', titulo:'Fim da linha e comida segura', tema:'Formação das fezes · saúde do sistema digestório · salmonelose e botulismo', pag:'p. 65 e 66', cor:'#8e6b3a',
+  html:`<p class="fala">Pão-Pão: "Nem tudo em mim foi aproveitado. O que sobrou segue para a última estação — e eu aproveito para te contar duas histórias de comida estragada."</p>
+<p>A parte do bolo alimentar que <b>não foi absorvida nem digerida</b> é encaminhada para o <b>intestino grosso</b> pelos movimentos peristálticos. Lá continua o processo de <b>absorção da água</b> e ocorre a <b>formação das fezes</b>. Elas ficam acumuladas no intestino grosso e são encaminhadas pelos movimentos peristálticos em direção ao <b>ânus</b>, por onde são eliminadas.</p>
+<div class="regra">💚 <b>Saúde do sistema digestório:</b> manter uma dieta com alimentos <b>saudáveis</b>, <b>pouco processados</b> e com <b>diversidade de nutrientes</b>; evitar <b>sal e açúcar em excesso</b>; ter cuidados de <b>higiene</b> no preparo e pensar na <b>conservação</b> no armazenamento. Isso evita a contaminação por microrganismos ou substâncias tóxicas, que podem causar doenças como a <b>salmonelose</b> e o <b>botulismo</b>.</div>
+<table class="quadro">
+<tr><td class="ano">Salmonelose</td><td>Provocada pelas bactérias <b>Salmonella</b>, transmitidas ao ser humano pela ingestão de <b>ovos e carne de frango crus ou malcozidos</b>. Sintomas: fortes <b>dores abdominais</b> e <b>febre</b>. Prevenção: <b>cozimento adequado</b> dos alimentos e <b>lavar bem as mãos e os utensílios</b> antes e depois de manipular ovos e frango cru.</td></tr>
+<tr><td class="ano">Botulismo</td><td>Causado pela ingestão de alimentos contaminados por uma <b>toxina</b> produzida pela bactéria <b>Clostridium botulinum</b>. Alimentos mais comuns: <b>conservas vegetais</b>, como palmito e picles, principalmente as <b>artesanais</b>. Sintomas: náuseas, vômitos, <b>visão turva</b> e dificuldade de engolir. Se não for tratado adequadamente, <b>pode levar à morte</b>.</td></tr>
+</table>
+<div class="caixa">🥫 <b>Como prevenir o botulismo (as imagens do livro):</b> não consumir enlatados com a lata <b>enferrujada, furada ou vencida</b>; preparar conservas caseiras com rigorosa <b>higiene</b>; <b>ferver</b> enlatados e conservas de fontes não totalmente confiáveis (isso elimina as toxinas); conservar o <b>mel</b> em recipiente limpo e abaixo de <b>15 °C</b> — e <b>não oferecer mel a crianças com menos de 1 ano</b>.</div>
+<div class="exemplo">🍔 <b>A pergunta do livro:</b> algumas lanchonetes servem maionese caseira feita com <b>ovos crus</b>. Quem come corre risco? <b>Sim</b> — pode haver a bactéria <i>Salmonella</i>, que causa a salmonelose.</div>`,
+  palavras:['intestino grosso','fezes','ânus','salmonelose','Salmonella','botulismo','Clostridium botulinum','toxina'],
+  qs:[
+   {q:'Onde ocorre a formação das fezes?', o:[
+     {t:'No intestino grosso, onde continua a absorção da água',ok:1,w:'Isso! Lá se absorve água e se formam as fezes.'},
+     {t:'No intestino delgado, junto com a absorção dos nutrientes',w:'No delgado ocorre a absorção dos nutrientes. As fezes se formam no grosso.'},
+     {t:'No estômago, pela ação das substâncias digestivas',w:'No estômago começa a digestão das proteínas.'},
+     {t:'No fígado, junto com a produção da bile',w:'O fígado produz a bile. As fezes se formam no intestino grosso.'}]},
+   {q:'Uma família vai comer uma maionese caseira feita com ovos crus. Qual é o risco, segundo o livro?', o:[
+     {t:'Salmonelose, causada pela bactéria Salmonella, que é transmitida por ovos e carne de frango crus ou malcozidos',ok:1,w:'Certo! Por isso o livro recomenda cozimento adequado e higiene.'},
+     {t:'Botulismo, causado pela toxina do Clostridium botulinum',w:'O botulismo está mais ligado às conservas vegetais, como palmito e picles.'},
+     {t:'Nenhum risco: ovo cru não transmite doenças',w:'Transmite sim: o livro cita a salmonelose, com dores abdominais fortes e febre.'},
+     {t:'Gripe, causada pelo vírus influenza',w:'A gripe é uma doença respiratória, transmitida pelo ar e pelo contato físico.'}]},
+   {q:'Qual destas é uma forma de prevenir o BOTULISMO, segundo o livro?', o:[
+     {t:'Não consumir alimentos enlatados se a lata estiver enferrujada, furada ou com validade vencida',ok:1,w:'Boa! E ferver conservas de fontes não confiáveis também elimina as toxinas.'},
+     {t:'Espirrar colocando o braço na frente da boca e do nariz',w:'Essa é uma prevenção de doenças respiratórias, como a gripe.'},
+     {t:'Evitar locais pouco ventilados e com aglomeração de pessoas',w:'Isso previne gripes e resfriados, do sistema respiratório.'},
+     {t:'Oferecer mel a bebês de menos de 1 ano para fortalecer o estômago',w:'É o contrário! O livro diz que não é indicado oferecer mel a crianças com menos de 1 ano.'}]}
+  ]},
+
+{ id:'b6', emoji:'🌬️', titulo:'O ar entra', tema:'Sistema respiratório e movimentos respiratórios', pag:'p. 67 e 68', cor:'#3aa6e0',
+  html:`<p class="fala">Pão-Pão: "Enquanto eu descia pelo esôfago, um gole de ar entrou pelo nariz e foi por outro caminho. Vamos nos encontrar daqui a pouco!"</p>
+<p>O sistema respiratório humano é formado pelas <b>vias respiratórias</b> e pelos <b>pulmões</b>.</p>
+<div class="regra">🛣️ <b>Vias respiratórias:</b> <b>cavidades nasais · faringe · laringe · traqueia · brônquios</b>.</div>
+<p>Os <b>pulmões</b> são órgãos com <b>textura esponjosa</b>, formados pelos <b>alvéolos pulmonares</b> — pequenos sacos arredondados, envoltos por <b>vasos sanguíneos muito finos</b>.</p>
+<div class="regra">🔄 <b>Nos alvéolos ocorrem as trocas gasosas</b> entre o ar e o sangue: o gás <b>oxigênio</b> presente no ar passa para o <b>sangue</b>, e o gás <b>carbônico</b> presente no sangue passa para o <b>ar</b>.</div>
+<h3>🎈 Movimentos respiratórios</h3>
+<p>Os pulmões são protegidos pelas <b>costelas</b>. Entre as costelas encontram-se os <b>músculos intercostais</b> e, abaixo dos pulmões, está o <b>diafragma</b>, músculo responsável por <b>separar o tórax do abdome</b>.</p>
+<p>Os músculos intercostais e o diafragma participam dos movimentos respiratórios, que permitem a entrada e a saída do ar dos pulmões: a entrada é a <b>inspiração</b> e a saída é a <b>expiração</b>.</p>
+<table class="quadro">
+<tr><td class="ano">Inspiração</td><td>Os músculos intercostais e o diafragma se <b>contraem</b>; a caixa torácica <b>aumenta de volume</b> e os pulmões <b>se enchem de ar</b>.</td></tr>
+<tr><td class="ano">Expiração</td><td>Os músculos intercostais e o diafragma <b>relaxam</b>; a caixa torácica <b>diminui de volume</b> e os pulmões <b>expulsam o ar</b>.</td></tr>
+</table>
+<div class="exemplo">📏 <b>A experiência do livro:</b> passando uma <b>fita métrica</b> ao redor do tronco, você percebe que o tórax fica com a medida <b>maior durante a inspiração</b>.</div>`,
+  palavras:['vias respiratórias','cavidades nasais','laringe','traqueia','brônquios','alvéolos pulmonares','trocas gasosas','músculos intercostais','diafragma'],
+  qs:[
+   {q:'Qual é a ordem correta do caminho do ar no nosso corpo?', o:[
+     {t:'Cavidades nasais → faringe → laringe → traqueia → brônquios → pulmões',ok:1,w:'Perfeito! Esse é o caminho das vias respiratórias até os pulmões.'},
+     {t:'Boca → esôfago → estômago → pulmões',w:'Esse é o caminho do alimento (e ele não vai para os pulmões!).'},
+     {t:'Cavidades nasais → traqueia → faringe → laringe → brônquios',w:'A faringe e a laringe vêm ANTES da traqueia.'},
+     {t:'Brônquios → traqueia → laringe → faringe → cavidades nasais',w:'Esse é o caminho de trás para a frente.'}]},
+   {q:'Em que estrutura o gás oxigênio passa do ar para o sangue?', o:[
+     {t:'Nos alvéolos pulmonares, que são envoltos por vasos sanguíneos muito finos',ok:1,w:'Isso! É ali que acontecem as trocas gasosas.'},
+     {t:'Na traqueia',w:'A traqueia é só caminho do ar. As trocas acontecem nos alvéolos.'},
+     {t:'Nas cavidades nasais',w:'Por elas o ar entra, mas a troca com o sangue é nos alvéolos.'},
+     {t:'No diafragma',w:'O diafragma é um músculo que ajuda o ar a entrar e sair, não faz a troca.'}]},
+   {q:'O que acontece com os músculos intercostais, o diafragma e a caixa torácica durante a INSPIRAÇÃO?', o:[
+     {t:'Os músculos se contraem e a caixa torácica aumenta de volume',ok:1,w:'Certo! Por isso o tórax fica com a medida maior na inspiração.'},
+     {t:'Os músculos relaxam e a caixa torácica diminui de volume',w:'Isso acontece na expiração, quando o ar sai.'},
+     {t:'Os músculos se contraem e a caixa torácica diminui de volume',w:'Quando eles se contraem, a caixa torácica AUMENTA de volume.'},
+     {t:'Os músculos não se mexem: só os pulmões trabalham',w:'Os músculos intercostais e o diafragma participam dos movimentos respiratórios.'}]}
+  ]},
+
+{ id:'b7', emoji:'⚡', titulo:'Virando energia', tema:'Respiração pulmonar e celular · saúde do sistema respiratório', pag:'p. 70 e 71', cor:'#1f79ad',
+  html:`<p class="fala">Pão-Pão: "Chegou a hora mágica: dentro da célula eu encontro o gás oxigênio e nós dois viramos ENERGIA."</p>
+<p>A <b>respiração pulmonar</b>, também chamada <b>ventilação pulmonar</b>, é aquela que acabamos de ver: o ar entrando e saindo dos pulmões.</p>
+<div class="regra">⚡ A <b>respiração celular</b> é um processo que ocorre <b>dentro das células</b>. Elas utilizam o gás <b>oxigênio</b>, absorvido pela respiração pulmonar, ao transformar os <b>nutrientes</b> absorvidos dos alimentos em <b>energia</b>. Esse processo também produz <b>gás carbônico</b>, que é liberado pelas células no sangue e depois eliminado do corpo pela respiração pulmonar.</div>
+<p>É por causa da respiração celular que o gás oxigênio é <b>essencial para a nossa sobrevivência</b> — e para a de muitos outros seres vivos.</p>
+<h3>🤧 Saúde do sistema respiratório</h3>
+<p>O sistema respiratório pode ser afetado pelo <b>ar poluído</b> com substâncias tóxicas e pela <b>contaminação por microrganismos</b>. As doenças mais comuns são as <b>gripes</b> e os <b>resfriados</b>.</p>
+<table class="quadro">
+<tr><td class="ano">Gripe</td><td>Causada por variações do <b>vírus influenza</b>. É bastante <b>contagiosa</b>: transmitida pelo ar e principalmente pelo <b>contato físico</b>. Quem está gripado espalha vírus ao espirrar; e quem espirra <b>na mão</b> pode transmitir ao apertar a mão de outra pessoa ou ao compartilhar um objeto. Sintomas: <b>febre</b>, dor de cabeça, dores musculares e tosse. Há <b>vacinas</b> que ajudam a prevenir.</td></tr>
+<tr><td class="ano">Resfriado</td><td>Causado por <b>vírus de muitos tipos</b>. Os sintomas são <b>mais brandos</b> que os da gripe: <b>coriza</b> (nariz escorrendo), dor de garganta e tosse.</td></tr>
+</table>
+<div class="caixa">🛡️ <b>Como se prevenir:</b> evitar permanecer em locais <b>pouco ventilados</b> e com <b>aglomeração</b> de pessoas; colocar o <b>braço na frente da boca</b> ao espirrar (assim as mãos não se contaminam); e <b>lavar as mãos com frequência</b>.</div>
+<div class="regra">🏭 <b>Poluição do ar:</b> o aumento da concentração de pessoas nos grandes centros urbanos e da poluição tem provocado muitos casos de doenças respiratórias. As substâncias do ar poluído <b>irritam</b> as vias respiratórias e os pulmões, podendo causar <b>inflamações</b> e facilitar a entrada de microrganismos. Pode haver dificuldade para respirar, tosse e febre. Formas de combate: incentivo ao uso de <b>combustíveis menos poluentes</b> e <b>aumento da arborização</b> das cidades, porque as <b>árvores filtram partículas</b> presentes no ar.</div>`,
+  palavras:['respiração pulmonar (ventilação)','respiração celular','vírus influenza','coriza','vacina','arborização'],
+  qs:[
+   {q:'O que acontece na respiração celular?', o:[
+     {t:'Dentro das células, o gás oxigênio é usado para transformar os nutrientes em energia, produzindo também gás carbônico',ok:1,w:'Isso! É aí que a comida e o ar finalmente se encontram.'},
+     {t:'Nos pulmões, o ar entra e sai pelos movimentos respiratórios',w:'Isso é a respiração pulmonar (ventilação pulmonar).'},
+     {t:'No intestino delgado, os nutrientes passam para o sangue',w:'Isso é a absorção. A respiração celular acontece dentro das células.'},
+     {t:'Nos rins, o sangue é filtrado e a urina é formada',w:'Isso é a filtração. A respiração celular transforma nutrientes em energia.'}]},
+   {q:'A gripe é causada por qual agente?', o:[
+     {t:'Por variações do vírus influenza',ok:1,w:'Certo! E há vacinas que ajudam a preveni-la.'},
+     {t:'Pela bactéria Salmonella',w:'Essa bactéria causa a salmonelose, uma doença do sistema digestório.'},
+     {t:'Pela bactéria Clostridium botulinum',w:'A toxina dessa bactéria causa o botulismo, ligado às conservas.'},
+     {t:'Pela poluição do ar das grandes cidades',w:'A poluição irrita as vias respiratórias, mas a gripe é causada pelo vírus influenza.'}]},
+   {q:'Por que o livro recomenda espirrar colocando o BRAÇO na frente da boca, e não a mão?', o:[
+     {t:'Porque assim as mãos não se contaminam, o que dificulta a transmissão ao apertar a mão de alguém ou compartilhar objetos',ok:1,w:'Exatamente. A mão encosta em tudo!'},
+     {t:'Porque o braço elimina o vírus influenza',w:'O braço não elimina vírus nenhum: ele só evita contaminar as mãos.'},
+     {t:'Porque espirrar na mão provoca engasgo',w:'O engasgo acontece quando o fechamento da epiglote falha ao engolir.'},
+     {t:'Porque assim o espirro fica mais forte e limpa os pulmões',w:'Não é isso: a recomendação é para não contaminar as mãos.'}]}
+  ]},
+
+{ id:'b8', emoji:'🚚', titulo:'A entrega', tema:'Circulação · sistema cardiovascular · o sangue · os vasos sanguíneos', pag:'p. 82 a 85', cor:'#d93b30',
+  html:`<p class="fala">Pão-Pão: "Virei nutriente e entrei no sangue! Agora pego a estrada vermelha e vou ser entregue em todas as células do corpo."</p>
+<p>A <b>circulação</b> é um processo que ocorre no corpo: o sangue <b>sai do coração</b>, percorre todos os demais órgãos e <b>retorna ao coração</b>. É por meio dela que muitas substâncias são transportadas, garantindo que as células recebam tudo de que precisam, como <b>nutrientes</b> e <b>oxigênio</b>. A circulação também é responsável por <b>encaminhar os resíduos para fora do corpo</b>.</p>
+<div class="regra">❤️ O <b>sistema cardiovascular</b> é responsável pela circulação do sangue por todo o corpo. É formado por: <b>sangue · coração · vasos sanguíneos</b>.</div>
+<h3>🩸 O sangue</h3>
+<p>Ao circular pelos vasos, o sangue <b>conecta todos os órgãos</b> do corpo: recolhe e distribui substâncias de e para todas as células. Os <b>nutrientes</b> obtidos pela digestão e o gás <b>oxigênio</b> absorvido nos pulmões são levados pelo sangue para todo o corpo. Do mesmo jeito, o gás <b>carbônico</b> produzido pela respiração celular é recolhido das células e, ao chegar aos pulmões, é eliminado.</p>
+<table class="quadro">
+<tr><td class="ano">Plasma</td><td>Líquido de coloração <b>amarelada</b>, formado principalmente por <b>água</b>, com várias substâncias dissolvidas, como <b>nutrientes</b> e <b>gás carbônico</b>.</td></tr>
+<tr><td class="ano">Glóbulos vermelhos</td><td>Também conhecidos como <b>hemácias</b>: são as células responsáveis pela <b>coloração vermelha</b> do sangue e <b>transportam o gás oxigênio</b>.</td></tr>
+<tr><td class="ano">Glóbulos brancos</td><td>Também conhecidos como <b>leucócitos</b>: compreendem células de diferentes tipos e têm a função de <b>defender o organismo</b> contra agentes estranhos, como bactérias e vírus.</td></tr>
+<tr><td class="ano">Plaquetas</td><td><b>Fragmentos celulares</b> presentes no sangue; atuam no processo de <b>coagulação sanguínea</b>, que ocorre quando um vaso se rompe (um corte no dedo, um joelho ralado) para <b>estancar o sangramento</b>.</td></tr>
+</table>
+<h3>🛣️ Os vasos sanguíneos</h3>
+<p>Os vasos sanguíneos formam uma <b>rede de tubos</b> que conduzem o sangue pelo corpo. Há <b>três tipos</b>:</p>
+<div class="regra">🔴 <b>Artérias</b> — levam sangue <b>do coração para outras partes do corpo</b>. Elas se ramificam em vasos mais finos até formarem os capilares.<br>
+🕸️ <b>Capilares</b> — os mais finos; têm as paredes <b>finas</b> (ao contrário das artérias). Depois se juntam e formam as veias.<br>
+🔵 <b>Veias</b> — levam o sangue <b>de volta ao coração</b> e têm <b>valvas</b> que ajudam nesse caminho.</div>
+<div class="exemplo">💉 <b>Ampliando (p. 84):</b> a <b>doação de sangue</b> pode salvar pessoas que sofrem acidentes ou passam por cirurgias e precisam de <b>transfusões</b>.</div>`,
+  palavras:['circulação','sistema cardiovascular','plasma','glóbulos vermelhos (hemácias)','glóbulos brancos (leucócitos)','plaquetas','coagulação','artérias','veias','capilares','valvas'],
+  qs:[
+   {q:'Qual é a função dos glóbulos brancos (leucócitos)?', o:[
+     {t:'Defender o organismo contra agentes estranhos, como bactérias e vírus',ok:1,w:'Isso! Eles são o exército do sangue.'},
+     {t:'Transportar o gás oxigênio para as células',w:'Quem transporta o gás oxigênio são os glóbulos vermelhos (hemácias).'},
+     {t:'Atuar na coagulação do sangue',w:'Quem atua na coagulação são as plaquetas.'},
+     {t:'Dissolver os nutrientes e o gás carbônico',w:'As substâncias ficam dissolvidas no plasma, o líquido amarelado do sangue.'}]},
+   {q:'Uma criança ralou o joelho e o sangramento parou sozinho depois de um tempo. Qual componente do sangue atuou?', o:[
+     {t:'As plaquetas, que atuam no processo de coagulação sanguínea',ok:1,w:'Certo! Elas são acionadas quando um vaso sanguíneo se rompe.'},
+     {t:'Os glóbulos vermelhos, que transportam o gás oxigênio',w:'Eles transportam o gás oxigênio e dão a cor vermelha ao sangue.'},
+     {t:'Os glóbulos brancos, que defendem o organismo',w:'Eles defendem contra bactérias e vírus, mas quem estanca o sangramento são as plaquetas.'},
+     {t:'O plasma, que é formado principalmente por água',w:'O plasma é o líquido onde tudo fica dissolvido. A coagulação é das plaquetas.'}]},
+   {q:'Qual afirmação sobre os vasos sanguíneos é VERDADEIRA, segundo o livro?', o:[
+     {t:'As artérias levam sangue do coração para outras partes do corpo',ok:1,w:'Isso! E elas se ramificam até formarem os capilares.'},
+     {t:'As artérias têm valvas que ajudam a encaminhar o sangue para o coração',w:'As valvas que ajudam a levar o sangue de volta ao coração estão nas veias.'},
+     {t:'Os capilares têm as paredes grossas, como as artérias',w:'Os capilares são os mais finos de todos e têm paredes finas.'},
+     {t:'As veias transportam apenas sangue rico em gás oxigênio',w:'O sangue que volta do corpo pelas veias é rico em gás carbônico.'}]}
+  ]},
+
+{ id:'b9', emoji:'💓', titulo:'O motor', tema:'O coração e o caminho do sangue', pag:'p. 86 a 88', cor:'#c2412c',
+  html:`<p class="fala">Pão-Pão: "Essa bomba aqui no meio do peito nunca para. É ela que me empurra para todo canto do corpo."</p>
+<p>O <b>coração</b> é um órgão formado por um <b>músculo</b> e está localizado no <b>centro do tórax, entre os pulmões</b>.</p>
+<div class="regra">💗 Internamente, o coração é dividido em <b>quatro cavidades</b> (também chamadas <b>câmaras</b>): duas <b>superiores</b>, chamadas <b>átrios</b>, e duas <b>inferiores</b>, chamadas <b>ventrículos</b>.</div>
+<table class="quadro">
+<tr><td class="ano">Ventrículos<br>(direito e esquerdo)</td><td>Têm as paredes <b>grossas</b> e <b>impulsionam o sangue</b> para todo o corpo, inclusive para os pulmões, pelas <b>artérias</b>.</td></tr>
+<tr><td class="ano">Átrios<br>(direito e esquerdo)</td><td>Têm as paredes <b>mais finas</b> que as dos ventrículos e <b>recebem</b> o sangue que as <b>veias</b> trazem do corpo e dos pulmões.</td></tr>
+</table>
+<p>Entre o átrio e o ventrículo de cada lado há <b>valvas</b>: estruturas como fendas que <b>abrem e fecham</b>, controlando o fluxo de sangue.</p>
+<div class="caixa">💓 <b>Batimentos cardíacos:</b> para impulsionar o sangue, o músculo do coração se <b>contrai e relaxa</b> constantemente, de forma alternada e em sequência. Esses movimentos são os <b>batimentos cardíacos</b> ou <b>pulsação</b>. O coração de um adulto bate cerca de <b>70 vezes por minuto</b> em repouso. Dá para sentir a pulsação nas <b>têmporas</b>, na <b>lateral do pescoço</b> ou no <b>punho</b>.</div>
+<h3>🔄 O caminho do sangue</h3>
+<p>O caminho que o sangue percorre no corpo é chamado de <b>circulação sanguínea</b>:</p>
+<div class="regra">1️⃣ O sangue <b>sai do coração por uma artéria</b>, que se ramifica em vasos mais finos até formar os <b>capilares</b>.<br>
+2️⃣ Os capilares <b>percorrem os órgãos</b> (intestinos, fígado, cérebro, músculos). É por meio deles que o gás <b>oxigênio</b> e os <b>nutrientes</b> chegam a todas as células. Ao mesmo tempo, o gás <b>carbônico</b> e outros <b>resíduos</b> passam para os capilares.<br>
+3️⃣ Dos capilares, o sangue passa por vasos cada vez mais grossos até alcançar as <b>veias</b>, que o levam <b>de volta ao coração</b>. Esse sangue é <b>rico em gás carbônico</b>.<br>
+4️⃣ Do coração, ele é impulsionado para os <b>pulmões</b>, onde o gás carbônico é <b>eliminado</b> e o gás oxigênio é <b>absorvido</b>.<br>
+5️⃣ Dos pulmões, o sangue — agora <b>rico em gás oxigênio</b> — <b>volta ao coração</b> e é impulsionado para todo o corpo.</div>
+<div class="caixa">🎨 <b>Dica das ilustrações:</b> para facilitar a compreensão, nas ilustrações os vasos que transportam sangue rico em gás <b>carbônico</b> são coloridos de <b>azul</b>, e os que conduzem sangue rico em gás <b>oxigênio</b> são representados em <b>vermelho</b>.</div>
+<div class="exemplo">🏃 <b>A experiência do livro:</b> contando os batimentos no punho <b>em repouso</b> e <b>depois dos polichinelos</b>, você descobre que o coração bate <b>mais vezes</b> depois da atividade física — porque o corpo gasta mais energia e precisa de mais gás oxigênio e nutrientes nas células.</div>`,
+  palavras:['coração','átrios','ventrículos','valvas','batimentos cardíacos','pulsação','circulação sanguínea'],
+  qs:[
+   {q:'Quais cavidades do coração impulsionam o sangue para o corpo e para os pulmões?', o:[
+     {t:'Os ventrículos, que têm as paredes grossas e empurram o sangue pelas artérias',ok:1,w:'Isso! Ventrículo empurra; átrio recebe.'},
+     {t:'Os átrios, que têm as paredes mais finas',w:'Os átrios RECEBEM o sangue que as veias trazem. Quem impulsiona são os ventrículos.'},
+     {t:'As valvas, que abrem e fecham',w:'As valvas só controlam o fluxo. Quem impulsiona são os ventrículos.'},
+     {t:'Os alvéolos, que ficam dentro do coração',w:'Os alvéolos ficam nos pulmões, não no coração.'}]},
+   {q:'Quantas vezes por minuto bate o coração de um ser humano adulto em repouso, segundo o livro?', o:[
+     {t:'Cerca de 70 vezes',ok:1,w:'Certo! E esse número aumenta durante a atividade física.'},
+     {t:'Cerca de 15 vezes',w:'É bem mais: o livro fala em cerca de 70 vezes por minuto.'},
+     {t:'Cerca de 200 vezes',w:'É bem menos: o livro fala em cerca de 70 vezes por minuto em repouso.'},
+     {t:'Cerca de 1 vez',w:'Uma vez por minuto seria pouquíssimo! O livro fala em cerca de 70.'}]},
+   {q:'Numa ilustração do livro, um vaso sanguíneo está colorido de AZUL. O que isso quer dizer?', o:[
+     {t:'Que ele transporta sangue rico em gás carbônico',ok:1,w:'Isso! Azul = gás carbônico; vermelho = gás oxigênio.'},
+     {t:'Que ele transporta sangue rico em gás oxigênio',w:'O sangue rico em gás oxigênio é representado em vermelho.'},
+     {t:'Que o sangue dentro dele é realmente azul',w:'É só uma convenção das ilustrações, para facilitar a compreensão.'},
+     {t:'Que ele é um capilar',w:'A cor indica o tipo de sangue transportado, não o tipo de vaso.'}]}
+  ]},
+
+{ id:'b10', emoji:'💧', titulo:'A limpeza', tema:'Filtração do sangue e formação da urina', pag:'p. 91', cor:'#49a94a',
+  html:`<p class="fala">Pão-Pão: "Nem tudo o que sobra pode ficar dentro de você. Tem uma estação de filtragem cuidando disso o tempo todo."</p>
+<p>Durante a circulação, o sangue é transportado para os <b>rins</b>, onde é <b>filtrado</b>.</p>
+<div class="regra">💧 Na <b>filtração</b>, alguns <b>sais minerais</b>, <b>água em excesso</b>, <b>resíduos tóxicos</b> — como a <b>ureia</b> — e outras substâncias são <b>retirados do sangue</b> e se combinam, compondo a <b>urina</b>.</div>
+<p>O sangue que sai dos rins tem uma concentração adequada de várias substâncias importantes para o funcionamento do corpo. Esse sangue <b>volta ao coração</b> e é distribuído para o corpo.</p>
+<div class="regra">🚿 <b>O caminho da urina:</b> ela sai dos <b>rins</b> e segue pelos <b>ureteres</b> até a <b>bexiga urinária</b>, onde é <b>armazenada</b>. A bexiga <b>aumenta de volume</b> conforme vai acumulando urina; quando fica cheia, sentimos vontade de urinar, e a urina é eliminada no ambiente — passando pela <b>uretra</b>, que leva a urina para o exterior do corpo.</div>
+<div class="caixa">🚰 <b>Os rins também controlam a água do corpo.</b> Além de filtrar o sangue e excretar os resíduos, eles mantêm em níveis ideais a quantidade de <b>água</b> do nosso corpo:<br>• Quando ingerimos <b>bastante água</b>, eliminamos mais água na urina, deixando-a <b>mais diluída</b> e, por isso, <b>mais clara</b>.<br>• Quando ingerimos <b>pouca água</b>, os rins retiram menos água do sangue, produzindo uma urina <b>mais concentrada</b> e, por isso, com coloração de um <b>amarelo mais escuro</b>.</div>`,
+  palavras:['rins','filtração','ureia','urina','ureteres','bexiga urinária','uretra','sistema urinário'],
+  qs:[
+   {q:'O que é retirado do sangue durante a filtração feita pelos rins?', o:[
+     {t:'Sais minerais, água em excesso e resíduos tóxicos, como a ureia',ok:1,w:'Isso! Tudo isso se combina e forma a urina.'},
+     {t:'Os glóbulos vermelhos e os glóbulos brancos',w:'Essas células continuam no sangue: elas transportam gás oxigênio e defendem o corpo.'},
+     {t:'O gás carbônico, que vira urina',w:'O gás carbônico é eliminado pelos pulmões, na expiração.'},
+     {t:'Os nutrientes absorvidos no intestino delgado',w:'Os nutrientes são distribuídos às células. Os rins retiram resíduos e o excesso de água.'}]},
+   {q:'Qual é o caminho correto da urina?', o:[
+     {t:'Rins → ureteres → bexiga urinária → uretra → fora do corpo',ok:1,w:'Perfeito! Cuidado para não trocar ureter com uretra.'},
+     {t:'Rins → uretra → ureteres → bexiga urinária',w:'Está trocado: os ureteres vêm antes da bexiga e a uretra, depois.'},
+     {t:'Bexiga urinária → rins → ureteres → uretra',w:'A urina se forma nos rins, e só depois chega à bexiga.'},
+     {t:'Intestinos → ureteres → bexiga urinária → uretra',w:'A urina se forma nos rins, não nos intestinos.'}]},
+   {q:'Depois de um dia inteiro sem beber quase nada, a urina de uma pessoa fica amarelo-escura. Por quê?', o:[
+     {t:'Porque, com pouca água, os rins retiram menos água do sangue e produzem uma urina mais concentrada',ok:1,w:'Isso! Urina clara = bebeu bastante água; escura = bebeu pouca.'},
+     {t:'Porque os rins param de filtrar o sangue',w:'Eles não param: continuam filtrando, mas retiram menos água.'},
+     {t:'Porque a bexiga urinária diminui de volume',w:'A bexiga aumenta de volume conforme acumula urina. A cor depende da concentração.'},
+     {t:'Porque a urina se mistura com as fezes no intestino grosso',w:'São caminhos diferentes: a urina nem passa pelo intestino.'}]}
+  ]},
+
+{ id:'b11', emoji:'🏁', titulo:'Chegada (revisão geral)', tema:'Tudo misturado: os quatro sistemas trabalhando juntos', pag:'p. 60 a 95', cor:'#8e5bd0',
+  html:`<p class="fala">Pão-Pão: "Cheguei ao fim da viagem! Agora vamos juntar tudo: por que esses quatro sistemas precisam uns dos outros?"</p>
+<div class="regra">🔗 <b>A grande ligação:</b> a <b>nutrição</b> de um organismo depende da atuação dos sistemas <b>digestório</b> e <b>respiratório</b> — um fornece os <b>nutrientes</b>, o outro o gás <b>oxigênio</b>. Mas quem <b>leva os dois até cada célula</b> é o sistema <b>cardiovascular</b>, e quem <b>tira os resíduos</b> do sangue é o sistema <b>urinário</b>, com os rins.</div>
+<p>Repare como um depende do outro:</p>
+<div class="exemplo">🍽️ A digestão quebra o alimento → o <b>intestino delgado</b> absorve os nutrientes → eles passam para o <b>sangue</b> → os <b>capilares</b> entregam nas células.</div>
+<div class="exemplo">🌬️ A inspiração traz o ar → os <b>alvéolos</b> fazem a troca → o gás oxigênio entra no <b>sangue</b> → os <b>glóbulos vermelhos</b> o transportam até as células.</div>
+<div class="exemplo">⚡ Dentro da célula, a <b>respiração celular</b> junta nutriente + gás oxigênio = <b>energia</b> + gás carbônico.</div>
+<div class="exemplo">🧹 O gás carbônico volta pelo <b>sangue</b> e sai nos <b>pulmões</b>; os resíduos tóxicos, como a <b>ureia</b>, saem pelos <b>rins</b>, na urina; e o que não foi digerido sai pelo <b>ânus</b>, nas fezes.</div>
+<div class="caixa">🧠 <b>Para fechar:</b> a anemia é uma doença que reduz a quantidade de <b>glóbulos vermelhos</b> no sangue. Um dos sintomas é o <b>cansaço</b>, com falta de energia e disposição — porque as hemácias transportam o gás <b>oxigênio</b>, e com menos delas a produção de energia no corpo fica prejudicada.</div>`,
+  palavras:['nutrição','sistemas integrados','anemia','hemácias','resíduos'],
+  qs:[
+   {q:'Por que uma pessoa com anemia (menos glóbulos vermelhos) sente cansaço e falta de disposição?', o:[
+     {t:'Porque as hemácias transportam o gás oxigênio, e com menos delas a produção de energia no corpo fica prejudicada',ok:1,w:'Isso! Sem gás oxigênio suficiente, a respiração celular produz menos energia.'},
+     {t:'Porque os glóbulos vermelhos defendem o organismo, e sem eles o corpo adoece mais',w:'Quem defende o organismo são os glóbulos brancos (leucócitos).'},
+     {t:'Porque os glóbulos vermelhos participam da coagulação do sangue',w:'Quem participa da coagulação são as plaquetas.'},
+     {t:'Porque os glóbulos vermelhos transportam o gás carbônico, usado pelas células para produzir energia',w:'Eles transportam gás OXIGÊNIO. O gás carbônico é um resíduo, não é usado para produzir energia.'}]},
+   {q:'A parede do intestino delgado tem muitos capilares. Que característica desses vasos permite que os nutrientes passem para a circulação sanguínea?', o:[
+     {t:'Os capilares têm as paredes finas',ok:1,w:'Certo! Paredes finas permitem a passagem de substâncias.'},
+     {t:'Os capilares têm as paredes grossas, como as artérias',w:'As paredes grossas são das artérias e dos ventrículos. Os capilares são finos.'},
+     {t:'Os capilares têm valvas, como as veias',w:'As valvas são das veias (e do coração) e servem para direcionar o sangue.'},
+     {t:'Os capilares ficam fora do corpo',w:'Eles percorrem os órgãos por dentro, entregando e recolhendo substâncias.'}]},
+   {q:'Um colega afirma: "O sistema respiratório não tem nenhuma relação com a nutrição do corpo." Como você responde?', o:[
+     {t:'Está errado: a nutrição depende dos dois sistemas, porque o gás oxigênio trazido pela respiração é usado dentro das células para transformar os nutrientes em energia',ok:1,w:'Perfeito! Essa é exatamente a frase que o livro pede para justificar.'},
+     {t:'Está certo: a nutrição é feita só pelo sistema digestório',w:'O livro diz que o sistema digestório E o respiratório são responsáveis pela nutrição.'},
+     {t:'Está certo: o sistema respiratório só serve para falar e cheirar',w:'Ele traz o gás oxigênio, essencial para a respiração celular.'},
+     {t:'Está errado, porque é o sistema respiratório que absorve os nutrientes',w:'Quem absorve os nutrientes é o intestino delgado. O respiratório traz o gás oxigênio.'}]}
+  ]}
+];
+
+const RAMOS = [
+ {nome:'🍽️ Sistema digestório', cor:'#e08a2b', nos:[
+   'Tubo digestório, em ordem: boca, faringe, esôfago, estômago, intestino delgado, intestino grosso e ânus.',
+   ['Órgãos anexos: glândulas salivares, pâncreas, vesícula biliar e ', {id:'L1',certa:'fígado',errada:'pulmão'}, ', que produz a bile (digere as gorduras).'],
+   ['O que empurra o alimento pelo tubo é o movimento ', {id:'L2',certa:'peristáltico',errada:'respiratório'}, '.'],
+   ['A maior parte dos nutrientes é absorvida no ', {id:'L3',certa:'intestino delgado',errada:'alvéolo'}, ', cuja parede tem muitas dobras.'],
+   ['No intestino grosso ocorre a absorção de água e a formação das ', {id:'L4',certa:'fezes',errada:'urina'}, '.']]},
+ {nome:'🌬️ Sistema respiratório', cor:'#3aa6e0', nos:[
+   'Caminho do ar: cavidades nasais → faringe → laringe → traqueia → brônquios → pulmões.',
+   ['As trocas gasosas acontecem nos ', {id:'L5',certa:'alvéolos',errada:'ureteres'}, ', envoltos por vasos sanguíneos muito finos.'],
+   ['O músculo abaixo dos pulmões, que separa o tórax do abdome, é o ', {id:'L6',certa:'diafragma',errada:'esôfago'}, '.'],
+   ['A entrada de ar, em que os músculos se contraem e a caixa torácica aumenta, é a ', {id:'L7',certa:'inspiração',errada:'deglutição'}, '.'],
+   'Respiração celular: dentro das células, nutrientes + gás oxigênio = energia + gás carbônico.']},
+ {nome:'❤️ Sistema cardiovascular', cor:'#d93b30', nos:[
+   'Formado pelo sangue, pelo coração e pelos vasos sanguíneos.',
+   'No sangue: plasma (líquido), glóbulos vermelhos (gás oxigênio) e glóbulos brancos (defesa).',
+   ['Atuam na coagulação do sangue: as ', {id:'L8',certa:'plaquetas',errada:'glândulas salivares'}, '.'],
+   ['Vasos que levam o sangue do coração para o corpo: as ', {id:'L9',certa:'artérias',errada:'traqueias'}, '. As veias trazem o sangue de volta e têm valvas.'],
+   ['Cavidades de paredes grossas que impulsionam o sangue: os ', {id:'L10',certa:'ventrículos',errada:'brônquios'}, '. Os átrios recebem.']]},
+ {nome:'💧 Sistema urinário', cor:'#49a94a', nos:[
+   ['Filtram o sangue e formam a urina: os ', {id:'L11',certa:'rins',errada:'pulmões'}, '. Eles retiram sais, água em excesso e a ureia.'],
+   ['Levam a urina dos rins até a bexiga urinária: os ', {id:'L12',certa:'ureteres',errada:'esôfagos'}, '.'],
+   'Da bexiga urinária, a urina sai pela uretra para o exterior do corpo.',
+   'Bebeu muita água: urina mais clara. Bebeu pouca: urina amarelo mais escuro.']}
+];
+
+// ----- Verdadeiro ou Falso (banco de 24; sorteia 12) -----
+const VF = [
+ {f:'A nutrição é o conjunto de processos pelos quais os organismos adquirem e utilizam os nutrientes, eliminando o que não é útil.', v:1, e:'Verdadeiro. É exatamente a definição do livro.'},
+ {f:'Só o sistema digestório é responsável pela nutrição do corpo.', v:0, e:'Falso. O sistema digestório E o sistema respiratório são responsáveis pela nutrição.'},
+ {f:'A digestão transforma os alimentos em partículas menores, que podem ser aproveitadas pelo corpo.', v:1, e:'Verdadeiro. Essa é a função da digestão.'},
+ {f:'O fígado, o pâncreas e as glândulas salivares fazem parte do tubo digestório, por onde o alimento passa.', v:0, e:'Falso. Eles são órgãos ANEXOS: produzem substâncias liberadas no tubo, mas o alimento não passa por eles.'},
+ {f:'O movimento peristáltico é feito pelos músculos das paredes do tubo digestório e empurra o alimento.', v:1, e:'Verdadeiro. Ele também ajuda a misturar as substâncias digestivas ao alimento.'},
+ {f:'A saliva, além de umedecer o alimento, contém substâncias que atuam na quebra dos carboidratos.', v:1, e:'Verdadeiro. A digestão dos carboidratos começa na boca.'},
+ {f:'A epiglote é a válvula que fecha a laringe quando engolimos.', v:1, e:'Verdadeiro. É ela que impede o alimento de ir para o sistema respiratório.'},
+ {f:'A bile é produzida pelo pâncreas e atua na digestão das proteínas.', v:0, e:'Falso. A bile é produzida pelo FÍGADO e atua na digestão das GORDURAS.'},
+ {f:'A maior parte da absorção de nutrientes ocorre no intestino delgado, e eles passam para o sangue.', v:1, e:'Verdadeiro. A absorção é feita pelas células da parede do intestino delgado.'},
+ {f:'As dobras da parede interna do intestino delgado diminuem a superfície de contato com os nutrientes.', v:0, e:'Falso. Elas AUMENTAM a superfície, tornando a absorção mais eficiente.'},
+ {f:'A salmonelose é transmitida pela ingestão de ovos e carne de frango crus ou malcozidos.', v:1, e:'Verdadeiro. É causada pelas bactérias Salmonella.'},
+ {f:'O botulismo é causado por uma toxina produzida pela bactéria Clostridium botulinum.', v:1, e:'Verdadeiro. Está ligado principalmente às conservas vegetais artesanais, como palmito e picles.'},
+ {f:'Pode-se oferecer mel à vontade para bebês de menos de 1 ano.', v:0, e:'Falso. O livro diz que NÃO é indicado oferecer mel a crianças com menos de 1 ano.'},
+ {f:'O sistema respiratório é formado pelas vias respiratórias e pelos pulmões.', v:1, e:'Verdadeiro. As vias são: cavidades nasais, faringe, laringe, traqueia e brônquios.'},
+ {f:'Os pulmões são os órgãos onde ocorrem as trocas gasosas entre o ar e o sangue.', v:1, e:'Verdadeiro. Mais exatamente nos alvéolos pulmonares.'},
+ {f:'Na expiração, os músculos intercostais e o diafragma se contraem e a caixa torácica aumenta de volume.', v:0, e:'Falso. Isso é a INSPIRAÇÃO. Na expiração eles relaxam e a caixa torácica diminui.'},
+ {f:'O gás carbônico é utilizado pelas células para produzir energia para o corpo.', v:0, e:'Falso. Quem é usado é o gás OXIGÊNIO. O gás carbônico é produzido e eliminado.'},
+ {f:'A gripe é causada por variações do vírus influenza e pode ser prevenida com vacinas.', v:1, e:'Verdadeiro. Ela é bastante contagiosa, pelo ar e principalmente pelo contato físico.'},
+ {f:'As árvores ajudam a combater as doenças respiratórias porque filtram partículas presentes no ar.', v:1, e:'Verdadeiro. Por isso o livro cita o aumento da arborização das cidades.'},
+ {f:'O sistema cardiovascular é formado pelo sangue, pelo coração e pelos vasos sanguíneos.', v:1, e:'Verdadeiro. É ele que faz a circulação do sangue por todo o corpo.'},
+ {f:'Os glóbulos brancos são responsáveis pelo transporte do gás oxigênio.', v:0, e:'Falso. Quem transporta o gás oxigênio são os glóbulos vermelhos (hemácias). Os brancos defendem o organismo.'},
+ {f:'As veias têm valvas que ajudam a encaminhar o sangue para o coração.', v:1, e:'Verdadeiro. E as artérias levam o sangue do coração para o corpo.'},
+ {f:'Os átrios têm as paredes mais finas que as dos ventrículos e recebem o sangue trazido pelas veias.', v:1, e:'Verdadeiro. Os ventrículos, de paredes grossas, impulsionam o sangue pelas artérias.'},
+ {f:'Nos rins, são retirados do sangue sais minerais, água em excesso e resíduos tóxicos, como a ureia.', v:1, e:'Verdadeiro. Tudo isso se combina e forma a urina.'},
+ {f:'A urina sai dos rins e vai direto para a uretra, sem passar pela bexiga urinária.', v:0, e:'Falso. Ela segue pelos URETERES até a bexiga urinária, onde é armazenada; só depois sai pela uretra.'},
+ {f:'Quando bebemos pouca água, a urina fica mais concentrada e com coloração amarelo mais escuro.', v:1, e:'Verdadeiro. Com bastante água, ela fica mais diluída e mais clara.'},
+ {f:'A digestão começa no estômago e termina no intestino delgado.', v:0, e:'Falso. Ela começa na BOCA e termina no INTESTINO GROSSO, com a absorção de água e minerais.'},
+ {f:'As trocas gasosas acontecem na traqueia, antes de o ar chegar aos pulmões.', v:0, e:'Falso. Elas acontecem nos alvéolos pulmonares, dentro dos pulmões.'},
+ {f:'O coração de um ser humano adulto em repouso bate cerca de 200 vezes por minuto.', v:0, e:'Falso. O livro diz que bate cerca de 70 vezes por minuto em repouso.'},
+ {f:'Nas ilustrações do livro, os vasos que conduzem sangue rico em gás oxigênio são coloridos de azul.', v:0, e:'Falso. Os de sangue rico em gás oxigênio são VERMELHOS; os azuis levam sangue rico em gás carbônico.'}
+];
+
+const RELAMPAGO = [
+ ['Qual é a ordem do tubo digestório?', 'Boca → faringe → esôfago → estômago → intestino delgado → intestino grosso → ânus.'],
+ ['Quais são os órgãos anexos do sistema digestório?', 'Glândulas salivares, pâncreas, fígado e vesícula biliar.'],
+ ['Quem digere carboidratos, proteínas e gorduras?', 'Carboidratos: a saliva, na boca. Proteínas: começam no estômago. Gorduras: a bile, produzida pelo fígado.'],
+ ['Qual é a função da epiglote?', 'Fechar a laringe quando engolimos, para o alimento não ir para o sistema respiratório.'],
+ ['Qual é a ordem do caminho do ar?', 'Cavidades nasais → faringe → laringe → traqueia → brônquios → pulmões (alvéolos).'],
+ ['O que acontece na inspiração?', 'Os músculos intercostais e o diafragma se contraem, a caixa torácica aumenta de volume e os pulmões se enchem de ar.'],
+ ['O que é a respiração celular?', 'O processo dentro das células que usa o gás oxigênio para transformar os nutrientes em energia, produzindo também gás carbônico.'],
+ ['Quem faz o quê no sangue?', 'Plasma: líquido com substâncias dissolvidas. Glóbulos vermelhos: transportam gás oxigênio. Glóbulos brancos: defesa. Plaquetas: coagulação.'],
+ ['Qual é a diferença entre artéria, capilar e veia?', 'Artéria leva o sangue do coração para o corpo; capilar é fininho e entrega nas células; veia traz o sangue de volta ao coração e tem valvas.'],
+ ['Qual é a diferença entre átrio e ventrículo?', 'Átrio: cavidade de cima, parede mais fina, RECEBE o sangue das veias. Ventrículo: cavidade de baixo, parede grossa, IMPULSIONA o sangue pelas artérias.'],
+ ['Qual é o caminho da urina?', 'Rins → ureteres → bexiga urinária → uretra → fora do corpo.'],
+ ['Por que a urina fica mais clara ou mais escura?', 'Bebendo bastante água, os rins eliminam mais água e a urina fica diluída e clara. Bebendo pouca, ela fica concentrada e amarelo-escura.']
+];
+
+// ----- Simulado (25 questões; a 1ª alternativa listada é a certa, depois são embaralhadas) -----
+const SIM = [
+ {q:'Segundo o livro, a nutrição do corpo humano é responsabilidade de quais sistemas?', o:[['Do sistema digestório e do sistema respiratório',1,'Um fornece os nutrientes e o outro, o gás oxigênio.'],['Do sistema urinário e do sistema cardiovascular','Esses dois transportam e eliminam, mas o livro aponta o digestório e o respiratório.'],['Apenas do sistema digestório','O sistema respiratório também participa: traz o gás oxigênio usado nas células.'],['Apenas do sistema cardiovascular','Ele transporta as substâncias, mas a nutrição é do digestório com o respiratório.']]},
+ {q:'Assinale a alternativa em que estão listados APENAS órgãos do sistema digestório.', o:[['Esôfago, estômago, intestino delgado e intestino grosso',1,'Todos fazem parte do tubo digestório.'],['Boca, intestino grosso, glândulas salivares e traqueia','A traqueia é do sistema respiratório.'],['Estômago, pulmão, esôfago e narinas','Pulmão e narinas são do sistema respiratório.'],['Brônquios, laringe, estômago e pâncreas','Brônquios e laringe são do sistema respiratório.']]},
+ {q:'Numere mentalmente o caminho do alimento. Qual sequência está CORRETA?', o:[['Boca → esôfago → estômago → intestino delgado → intestino grosso',1,'Esse é o caminho do alimento pelo tubo digestório.'],['Boca → estômago → esôfago → intestino grosso → intestino delgado','O esôfago vem antes do estômago, e o delgado antes do grosso.'],['Boca → traqueia → estômago → intestino delgado → ânus','A traqueia é do caminho do ar, não do alimento.'],['Estômago → boca → esôfago → intestino grosso → intestino delgado','O caminho começa na boca.']]},
+ {q:'Qual é a função dos órgãos anexos do sistema digestório?', o:[['Produzir substâncias essenciais para a digestão, que são liberadas no tubo digestório',1,'O alimento não passa por eles: só as substâncias que eles produzem chegam ao tubo.'],['Conduzir o alimento da boca até o ânus','Quem conduz o alimento é o tubo digestório.'],['Absorver os nutrientes e passá-los para o sangue','Quem faz isso é a parede do intestino delgado.'],['Armazenar as fezes antes de serem eliminadas','As fezes ficam acumuladas no intestino grosso, que é parte do tubo.']]},
+ {q:'Na boca, qual substância atua na quebra dos carboidratos?', o:[['A saliva, que também umedece o alimento',1,'Por isso a digestão já começa na boca.'],['A bile, produzida pelo fígado','A bile atua na digestão das gorduras, no intestino delgado.'],['A ureia, retirada do sangue pelos rins','A ureia é um resíduo tóxico eliminado na urina.'],['O plasma do sangue','O plasma é o líquido do sangue, não atua na digestão da comida na boca.']]},
+ {q:'Uma criança está comendo e, de repente, se engasga e começa a tossir. O que aconteceu, segundo o livro?', o:[['O fechamento da epiglote falhou e partículas de alimento entraram na laringe; a tosse serve para expeli-las',1,'A epiglote é a válvula que protege as vias respiratórias na hora de engolir.'],['O movimento peristáltico parou de funcionar','O peristáltico empurra o alimento pelo tubo; o engasgo é falha no fechamento da epiglote.'],['A bile foi liberada na boca em vez do intestino','A bile é liberada no intestino delgado e não causa engasgo.'],['Os alvéolos pulmonares se fecharam','Os alvéolos fazem as trocas gasosas; não têm relação com o engasgo.']]},
+ {q:'Complete: "No ______ inicia-se o processo de digestão das proteínas; o ______ e o pâncreas liberam secreções digestivas no intestino delgado."', o:[['estômago / fígado',1,'O estômago começa as proteínas; o fígado produz a bile, que age nas gorduras.'],['intestino grosso / coração','No intestino grosso ocorre a absorção de água; o coração não participa da digestão.'],['esôfago / rim','O esôfago só transporta o alimento; o rim filtra o sangue.'],['pulmão / pâncreas','O pulmão é do sistema respiratório; e a frase já cita o pâncreas.']]},
+ {q:'A parede interna do intestino delgado é repleta de pequenas dobras. Para que elas servem?', o:[['Para aumentar a superfície em contato com os nutrientes, tornando a absorção mais eficiente',1,'Mais superfície = mais absorção.'],['Para impedir a entrada de bactérias como a Salmonella','A prevenção da salmonelose é pelo cozimento e pela higiene dos alimentos.'],['Para produzir a bile e as substâncias digestivas','A bile é produzida pelo fígado.'],['Para formar as fezes mais rapidamente','As fezes se formam no intestino grosso.']]},
+ {q:'Em qual órgão ocorre a absorção de água e a formação das fezes?', o:[['No intestino grosso',1,'Lá continua a absorção de água e as fezes são formadas e encaminhadas ao ânus.'],['No intestino delgado','No delgado ocorre a absorção dos nutrientes e de parte da água.'],['No estômago','No estômago começa a digestão das proteínas.'],['Nos rins','Os rins filtram o sangue e formam a urina.']]},
+ {q:'Assinale a alternativa que apresenta formas de evitar doenças do sistema digestório.', o:[['Garantir a higiene no preparo dos alimentos, evitar comer alimentos crus ou malcozidos e armazená-los de forma adequada',1,'São exatamente as recomendações do livro.'],['Evitar locais pouco ventilados e com aglomeração de pessoas','Isso previne doenças do sistema respiratório, como gripes e resfriados.'],['Espirrar colocando o braço na frente da boca e do nariz','Também é prevenção de doenças respiratórias.'],['Tomar a vacina contra a gripe todos os anos','A vacina da gripe previne uma doença do sistema respiratório.']]},
+ {q:'Uma pessoa comeu palmito de uma conserva artesanal e passou a ter náuseas, vômitos e visão turva. De qual doença o livro fala?', o:[['Botulismo, causado pela toxina da bactéria Clostridium botulinum',1,'As conservas vegetais artesanais são o alimento mais comumente envolvido.'],['Salmonelose, causada pela bactéria Salmonella','A salmonelose vem de ovos e frango crus ou malcozidos, com dores abdominais e febre.'],['Gripe, causada pelo vírus influenza','A gripe é respiratória: febre, dor de cabeça, dores musculares e tosse.'],['Anemia, causada pela redução dos glóbulos vermelhos','A anemia causa cansaço e falta de disposição.']]},
+ {q:'Qual é a ordem correta das estruturas por onde o ar passa?', o:[['Cavidades nasais, faringe, laringe, traqueia, brônquios e pulmões',1,'Essas são as vias respiratórias até os pulmões.'],['Cavidades nasais, traqueia, laringe, faringe e brônquios','A faringe e a laringe vêm antes da traqueia.'],['Boca, esôfago, traqueia, brônquios e pulmões','O esôfago é do caminho do alimento.'],['Brônquios, pulmões, traqueia, laringe e faringe','Essa é a ordem invertida.']]},
+ {q:'Em qual estrutura do sistema respiratório o gás oxigênio passa do ar para o sangue?', o:[['Nos alvéolos pulmonares',1,'Eles são envoltos por vasos sanguíneos muito finos, o que permite as trocas gasosas.'],['Na traqueia','A traqueia é apenas caminho do ar.'],['Nos capilares do intestino delgado','Ali passam os nutrientes para o sangue, não o gás oxigênio do ar.'],['Na faringe','A faringe é passagem de ar e de alimento, mas não faz trocas gasosas.']]},
+ {q:'Como os músculos intercostais e o diafragma atuam nos movimentos respiratórios?', o:[['Na inspiração eles se contraem e a caixa torácica aumenta de volume; na expiração eles relaxam e ela diminui',1,'Por isso o tórax fica maior quando inspiramos.'],['Na inspiração eles relaxam e a caixa torácica diminui de volume','Está invertido: relaxar e diminuir é a expiração.'],['Eles não participam: quem se movimenta são apenas os pulmões','O livro diz que os dois participam dos movimentos respiratórios.'],['Eles empurram o alimento pelo tubo digestório','Esse é o movimento peristáltico, feito por outros músculos.']]},
+ {q:'Qual é a diferença entre respiração pulmonar e respiração celular?', o:[['A pulmonar é a entrada e a saída de ar dos pulmões; a celular ocorre dentro das células, transformando nutrientes e gás oxigênio em energia e gás carbônico',1,'São dois processos ligados, mas diferentes.'],['A pulmonar ocorre dentro das células e a celular, nos pulmões','Está invertido.'],['Não há diferença: são dois nomes para a mesma coisa','São processos diferentes, embora um dependa do outro.'],['A pulmonar produz energia e a celular elimina as fezes','As fezes são do sistema digestório; quem produz energia é a respiração celular.']]},
+ {q:'Qual afirmação sobre a saúde do sistema respiratório está de acordo com o livro?', o:[['As substâncias do ar poluído irritam as vias respiratórias e os pulmões, podendo causar inflamações e facilitar a entrada de microrganismos',1,'Por isso se incentiva o uso de combustíveis menos poluentes e mais arborização.'],['A gripe tem sintomas mais brandos que o resfriado','É o contrário: os sintomas do resfriado é que são mais brandos.'],['Gripes e resfriados são causados por bactérias','São causados por vírus: a gripe pelo influenza e o resfriado por vírus de muitos tipos.'],['O ar poluído só afeta pessoas que já estão doentes','O livro fala em elevados índices de doenças respiratórias nas cidades poluídas, sem essa restrição.']]},
+ {q:'Qual é a função do sistema cardiovascular e quais são seus componentes?', o:[['Fazer a circulação do sangue por todo o corpo; é formado pelo sangue, pelo coração e pelos vasos sanguíneos',1,'Assim as células recebem o que precisam e os resíduos são encaminhados para fora.'],['Filtrar o sangue; é formado pelos rins, ureteres, bexiga urinária e uretra','Esse é o sistema urinário.'],['Fazer as trocas gasosas; é formado pelas vias respiratórias e pelos pulmões','Esse é o sistema respiratório.'],['Digerir os alimentos; é formado pelo tubo digestório e pelos órgãos anexos','Esse é o sistema digestório.']]},
+ {q:'A anemia reduz a quantidade de glóbulos vermelhos no sangue e um dos sintomas é o cansaço. Isso ocorre porque as hemácias:', o:[['transportam o gás oxigênio, e a diminuição dessas células afeta a produção de energia no corpo',1,'Sem gás oxigênio suficiente, as células produzem menos energia.'],['são responsáveis pela defesa do organismo contra agentes estranhos','Essa é a função dos glóbulos brancos (leucócitos).'],['participam da coagulação do sangue','Quem participa da coagulação são as plaquetas.'],['transportam o gás carbônico, que é utilizado pelas células para produzir energia','As hemácias transportam gás oxigênio; o gás carbônico é um resíduo.']]},
+ {q:'Associe corretamente: (I) plasma; (II) plaquetas; (III) glóbulos brancos; (IV) glóbulos vermelhos.', o:[['I – líquido amarelado com substâncias dissolvidas; II – coagulação; III – defesa do corpo; IV – transporte do gás oxigênio',1,'Essa é a associação do livro.'],['I – transporte do gás oxigênio; II – defesa; III – coagulação; IV – líquido amarelado','Tudo trocado: o plasma é o líquido e as hemácias transportam o gás oxigênio.'],['I – defesa; II – transporte do gás oxigênio; III – líquido amarelado; IV – coagulação','As funções estão embaralhadas.'],['I – coagulação; II – líquido amarelado; III – transporte do gás oxigênio; IV – defesa','As funções estão embaralhadas.']]},
+ {q:'No intestino delgado há muitos capilares que permitem aos nutrientes passar para a circulação sanguínea. Qual característica dos capilares permite isso?', o:[['Eles têm as paredes finas',1,'Por isso as substâncias conseguem passar para o sangue.'],['Eles têm as paredes grossas','Paredes grossas são das artérias e dos ventrículos.'],['Eles têm valvas','As valvas estão nas veias e no coração.'],['Eles saem diretamente do coração','Quem sai diretamente do coração são as artérias.']]},
+ {q:'Observando um coração, uma estudante viu quatro cavidades. Qual descrição está correta?', o:[['Duas superiores, os átrios, de paredes mais finas, que recebem o sangue das veias; e duas inferiores, os ventrículos, de paredes grossas, que impulsionam o sangue pelas artérias',1,'Átrio recebe, ventrículo impulsiona.'],['Duas superiores, os ventrículos, que recebem o sangue; e duas inferiores, os átrios, que o impulsionam','Está invertido: os átrios ficam em cima e recebem.'],['Quatro átrios, todos com a mesma função de receber o sangue','São dois átrios e dois ventrículos, com funções diferentes.'],['Duas cavidades cheias de alvéolos e duas cheias de capilares','Os alvéolos ficam nos pulmões.']]},
+ {q:'Qual sequência descreve corretamente o caminho do sangue?', o:[['Sai do coração por uma artéria → capilares nos órgãos → veias → coração → pulmões → coração → corpo',1,'É o caminho descrito no livro.'],['Sai do coração por uma veia → artérias → capilares → pulmões → intestinos','O sangue sai do coração pelas artérias e volta pelas veias.'],['Sai dos pulmões → rins → intestinos → coração, sem passar pelas artérias','O sangue é impulsionado pelo coração através das artérias.'],['Sai do intestino delgado → esôfago → estômago → coração','Esse é parte do caminho do alimento, não do sangue.']]},
+ {q:'Nas ilustrações do livro, os vasos que transportam sangue rico em gás carbônico são coloridos de:', o:[['azul, enquanto os que conduzem sangue rico em gás oxigênio são representados em vermelho',1,'É uma convenção para facilitar a compreensão.'],['vermelho, enquanto os que conduzem sangue rico em gás oxigênio são azuis','Está invertido.'],['verde, para diferenciar dos capilares','O livro usa azul e vermelho.'],['amarelo, a mesma cor do plasma','O plasma é amarelado, mas os vasos nas ilustrações são azuis e vermelhos.']]},
+ {q:'Entre as alternativas a seguir, indique aquela que completa corretamente as frases sobre o sistema urinário: nos ______ ocorre a formação da urina; os ______ encaminham a urina dos rins para a bexiga; a urina se acumula na ______; a ______ leva a urina para o exterior do corpo.', o:[['rins – ureteres – bexiga urinária – uretra',1,'Esse é o caminho completo da urina.'],['rins – ureteres – uretra – artéria','A artéria é um vaso sanguíneo, não faz parte do sistema urinário.'],['ureteres – intestinos – uretra – bexiga urinária','A urina se forma nos rins, e os intestinos não participam.'],['intestinos – ureteres – bexiga urinária – uretra','A urina se forma nos rins, não nos intestinos.']]},
+ {q:'Como podemos perceber, na prática, que os rins estão controlando a quantidade de água do nosso organismo?', o:[['Pela cor da urina: bebendo bastante água ela fica mais diluída e clara; bebendo pouca, fica mais concentrada e amarelo-escura',1,'Essa é a explicação do livro.'],['Pelo número de batimentos cardíacos por minuto','Os batimentos mostram o trabalho do coração, não dos rins.'],['Pela quantidade de respirações por minuto','Isso mostra o trabalho do sistema respiratório.'],['Pela cor das fezes formadas no intestino grosso','As fezes são do sistema digestório; o livro fala da cor da urina.']]}
+];
+
+// ===================== LÓGICA =====================
+const SLUG = 'cie5sanduiche';
+const SEED_LEIT = 41, SEED_SIM = 23, SEED_MAPA = 11;
+const K = { leitura:SLUG+'_leitura_v1', mapa:SLUG+'_mapa_v1', vf:SLUG+'_vf_v1', resumo:SLUG+'_resumo_v1', simulado:SLUG+'_simulado_v1', trilha:SLUG+'_trilha_v1' };
+const CODIGO_PAIS = 'PAIS-77';
+const MEM = {};
+function ler(k){ try{ const v = localStorage.getItem(k); if(v!==null) return JSON.parse(v); }catch(e){} return MEM[k] ? JSON.parse(MEM[k]) : null; }
+function gravar(k,o){ const s = JSON.stringify(o); MEM[k] = s; try{ localStorage.setItem(k,s); }catch(e){} }
+function apagar(k){ delete MEM[k]; try{ localStorage.removeItem(k); }catch(e){} }
+
+let S = {};
+function carregar(){
+  S.leitura  = ler(K.leitura)  || {resp:{}, concluido:false};
+  S.mapa     = ler(K.mapa)     || {pecas:{}, concluido:false};
+  S.vf       = ler(K.vf)       || {melhor:null, rodadas:0, historico:[], concluido:false};
+  S.resumo   = ler(K.resumo)   || {maxRolagem:0, concluido:false};
+  S.simulado = ler(K.simulado) || {resp:{}, enviado:false, concluido:false};
+  S.trilha   = ler(K.trilha)   || {liberadoPelosPais:false, liberadoEm:null, vistos:{}, historico:[]};
+  if(!S.trilha.vistos) S.trilha.vistos = {};
+  if(!S.trilha.historico) S.trilha.historico = [];
+}
+function salvar(nome){ S[nome].salvoEm = new Date().toISOString(); gravar(K[nome], S[nome]); atualizarPainel(); renderTrilha(); }
+function concluir(nome){ if(!S[nome].concluido){ S[nome].concluido = true; S[nome].concluidoEm = new Date().toISOString(); } }
+
+// ---------- utilidades ----------
+function hashStr(s){ let h = 2166136261; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h,16777619); } return h>>>0; }
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function embaralhar(arr, seed){ const r = mulberry32(seed); const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function dataBR(iso){ if(!iso) return '—'; const d=new Date(iso); const p=n=>String(n).padStart(2,'0'); return `${p(d.getDate())}/${p(d.getMonth()+1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`; }
+const $ = id => document.getElementById(id);
+const LETRAS = ['a','b','c','d'];
+
+// ---------- modal ----------
+function abrirModal(html, botoes){
+  const m = $('modal'); m.innerHTML = html + '<div style="margin-top:14px" id="modalBts"></div>';
+  (botoes||[{t:'OK', cls:'btn'}]).forEach(b=>{ const el=document.createElement('button'); el.className=b.cls||'btn'; el.textContent=b.t; el.onclick=()=>{ fecharModal(); if(b.fn) b.fn(); }; $('modalBts').appendChild(el); });
+  $('fundoModal').classList.add('aberto');
+}
+function fecharModal(){ $('fundoModal').classList.remove('aberto'); }
+
+// ---------- trilha ----------
+const ETAPAS = [
+  {id:'leitura', nome:'Leitura Guiada', ic:'📖'},
+  {id:'mapa', nome:'Mapa Mental para encaixar', ic:'🧠'},
+  {id:'vf', nome:'Verdadeiro ou Falso', ic:'✅'},
+  {id:'resumo', nome:'Resumo', ic:'🗺️'},
+  {id:'simulado', nome:'Simulado', ic:'📝'}
+];
+const idxEtapa = id => ETAPAS.findIndex(e=>e.id===id);
+function feito(id){ return !!(S[id] && S[id].concluido); }
+function aberta(i){ if(i<=0) return true; if(S.trilha.liberadoPelosPais) return true; return feito(ETAPAS[i-1].id) || feito(ETAPAS[i].id); }
+const TOTAL_PERG = BLOCOS.reduce((s,b)=>s+b.qs.length,0);
+function blocoFeito(b){ return b.qs.every((q,qi)=>S.leitura.resp[b.id+'_'+qi]); }
+function blocosFeitos(){ return BLOCOS.filter(blocoFeito).length; }
+const PECAS = []; RAMOS.forEach(r=>r.nos.forEach(n=>{ if(Array.isArray(n)) n.forEach(p=>{ if(typeof p==='object') PECAS.push(p); }); }));
+const TOTAL_PECAS = PECAS.length;
+function pecasFeitas(){ return PECAS.filter(p=>S.mapa.pecas[p.id] && S.mapa.pecas[p.id].feita).length; }
+function faltaTexto(i){
+  const ant = ETAPAS[i-1].id;
+  if(ant==='leitura') return `Destrava quando você concluir as ${BLOCOS.length} paradas da Leitura Guiada (faltam ${BLOCOS.length-blocosFeitos()}).`;
+  if(ant==='mapa') return `Destrava quando você encaixar as ${TOTAL_PECAS} peças do Mapa Mental (faltam ${TOTAL_PECAS-pecasFeitas()}).`;
+  if(ant==='vf') return 'Destrava quando você jogar uma rodada completa (12 frases) do Verdadeiro ou Falso.';
+  if(ant==='resumo') return 'Destrava quando você ler o Resumo até o fim e clicar em "✅ Li o resumo até o fim".';
+  return '';
+}
+function ehNova(i){ return i>0 && aberta(i) && !feito(ETAPAS[i].id) && !S.trilha.vistos[ETAPAS[i].id]; }
+
+let abaAtual = 'inicio';
+function renderAbas(){
+  const nav = $('abas'); nav.innerHTML = '';
+  const todas = [{id:'inicio', nome:'Início', ic:'🏠'}].concat(ETAPAS);
+  todas.forEach(a=>{
+    const i = idxEtapa(a.id); const b = document.createElement('button');
+    b.innerHTML = `${a.ic} ${a.nome}`;
+    if(a.id===abaAtual) b.classList.add('ativa');
+    if(i>=0 && !aberta(i)){ b.classList.add('trancada'); b.innerHTML = `🔒 ${a.nome}`; b.title = faltaTexto(i); }
+    else if(i>=0 && feito(a.id)) b.innerHTML += ' <span class="selo">✅</span>';
+    else if(i>=0 && ehNova(i)) b.innerHTML += ' <span class="selo">✨ Novo</span>';
+    b.onclick = ()=>ir(a.id);
+    nav.appendChild(b);
+  });
+}
+function renderTrilha(){
+  const box = $('trilhaCards'); if(!box) return; box.innerHTML = '';
+  if(S.trilha.liberadoPelosPais){ const s=document.createElement('div'); s.className='caixa'; s.innerHTML='🔓 <b>Trilha liberada pelos pais</b> em '+dataBR(S.trilha.liberadoEm); box.appendChild(s); }
+  ETAPAS.forEach((e,i)=>{
+    const b = document.createElement('button'); b.className='etapa';
+    let status;
+    if(!aberta(i)){ b.classList.add('trancada'); status = `<span class="tag lock">🔒 Trancado</span><div class="sub">${faltaTexto(i)}</div>`; }
+    else if(feito(e.id)){ b.classList.add('feita'); status = `<span class="tag ok">✅ Concluído</span><div class="sub">em ${dataBR(S[e.id].concluidoEm)}</div>`; }
+    else if(ehNova(i)){ b.classList.add('nova'); status = `<span class="tag novo">✨ Novo destravado</span>`; }
+    else status = `<span class="sub">${i===0?'Comece por aqui!':'Aberto'}</span>`;
+    b.innerHTML = `<span class="ic">${e.ic}</span><span><b>${i+1}. ${e.nome}</b> ${status}</span>`;
+    b.onclick = ()=>ir(e.id);
+    box.appendChild(b);
+  });
+  renderAbas(); renderProximos();
+}
+function renderProximos(){
+  document.querySelectorAll('[data-proximo]').forEach(bt=>{
+    const i = idxEtapa(bt.dataset.proximo);
+    const ok = aberta(i);
+    bt.disabled = !ok;
+    if(!bt.dataset.rotulo) bt.dataset.rotulo = bt.textContent;
+    bt.textContent = ok ? bt.dataset.rotulo : '🔒 ' + bt.dataset.rotulo.replace(/^\S+\s/,'');
+    bt.title = ok ? '' : faltaTexto(i);
+    bt.onclick = ()=>ir(bt.dataset.proximo);
+  });
+}
+function modalTrancada(i){
+  abrirModal(`<div class="trofeu">🔒</div><h2>Esta etapa ainda está trancada</h2><p>Para abrir <b>${ETAPAS[i].nome}</b>, conclua antes <b>${ETAPAS[i-1].nome}</b>.</p><p>${faltaTexto(i)}</p>`,
+    [{t:'Ir para '+ETAPAS[i-1].nome, cls:'btn', fn:()=>ir(ETAPAS[i-1].id)},{t:'Voltar ao início', cls:'btn claro', fn:()=>ir('inicio')}]);
+}
+function ir(id){
+  const i = idxEtapa(id);
+  if(id!=='inicio' && i<0) id='inicio';
+  if(i>=0 && !aberta(i)){ modalTrancada(i); return; }
+  abaAtual = id;
+  document.querySelectorAll('section.aba').forEach(s=>s.classList.toggle('ativa', s.id==='sec-'+id));
+  if(i>=0 && !S.trilha.vistos[id]){ S.trilha.vistos[id] = new Date().toISOString(); gravar(K.trilha, S.trilha); }
+  renderTrilha();
+  window.scrollTo(0,0);
+  if(id==='resumo') setTimeout(medirRolagem, 300);
+}
+
+// ---------- LEITURA ----------
+const fechados = {};
+function opcoesDe(q, seed){ return embaralhar(q.o.map((o,k)=>Object.assign({k}, o)), seed); }
+function renderLeitura(){
+  const box = $('blocosLeitura'); box.innerHTML = '';
+  let anteriorFeito = true;
+  BLOCOS.forEach((b,j)=>{
+    const liberado = anteriorFeito; const completo = blocoFeito(b);
+    const d = document.createElement('div');
+    d.className = 'card bloco' + (liberado?'':' trancado') + (fechados[b.id]?' fechado':'');
+    d.style.setProperty('--c', b.cor); d.id = 'bloco-'+b.id;
+    let cab = `<div class="cab"><div><h2 style="color:${b.cor}">${b.emoji} ${j+1}. ${b.titulo}</h2><div class="sub">${b.tema} · ${b.pag}</div></div><div>${completo?'<span class="tag ok">✅ feito</span>':(liberado?'':'<span class="tag lock">🔒</span>')}</div></div>`;
+    if(!liberado){ d.innerHTML = cab + `<p class="sub">🔒 Abre quando você responder as perguntas da parada ${j}.</p>`; box.appendChild(d); anteriorFeito=false; return; }
+    let corpo = `<div class="corpo">${b.html}<div class="caixa">🔑 <b>Palavras importantes:</b> ${b.palavras.join(' · ')}</div><h3>🎯 Responda as ${b.qs.length} perguntas</h3>`;
+    b.qs.forEach((q,qi)=>{
+      const qid = b.id+'_'+qi; const r = S.leitura.resp[qid];
+      const ops = opcoesDe(q, hashStr(qid)+SEED_LEIT);
+      corpo += `<div class="pergunta"><b>${qi+1}) ${q.q}</b><div class="opcoes">`;
+      ops.forEach((o,pi)=>{
+        let cls = 'op';
+        if(r){ if(o.ok) cls+=' certa'; else if(o.k===r.esc) cls+=' errada'; else cls+=' cinza'; }
+        corpo += `<button class="${cls}" ${r?'disabled':''} data-q="${qid}" data-k="${o.k}">${LETRAS[pi]}) ${o.t}</button>`;
+      });
+      corpo += `</div>`;
+      if(r){ const esc = q.o[r.esc]; const certa = q.o.find(o=>o.ok);
+        corpo += r.ok ? `<div class="fb ok">🎉 ${esc.w}</div>` : `<div class="fb no">💭 Quase! ${esc.w}<br>✔️ <b>Resposta certa:</b> ${certa.t} — ${certa.w}</div>`; }
+      corpo += `</div>`;
+    });
+    corpo += `</div>`;
+    d.innerHTML = cab + corpo; box.appendChild(d);
+    d.querySelector('.cab').onclick = ()=>{ fechados[b.id] = !fechados[b.id]; d.classList.toggle('fechado'); };
+    anteriorFeito = completo;
+  });
+  box.querySelectorAll('button.op').forEach(bt=>bt.onclick = ()=>responderLeitura(bt.dataset.q, +bt.dataset.k));
+  const resp = Object.keys(S.leitura.resp).length; const acertos = Object.values(S.leitura.resp).filter(r=>r.ok).length;
+  $('barraLeitura').style.width = (resp/TOTAL_PERG*100)+'%';
+  $('txtLeitura').innerHTML = `${resp} de ${TOTAL_PERG} perguntas respondidas · ⭐ ${acertos} acertos · ${blocosFeitos()} de ${BLOCOS.length} paradas concluídas 🥪`;
+  renderVila();
+  $('fimLeitura').style.display = S.leitura.concluido ? 'block' : 'none';
+}
+function responderLeitura(qid, k){
+  if(S.leitura.resp[qid]) return;
+  const [bid, qi] = qid.split('_'); const b = BLOCOS.find(x=>x.id===bid); const q = b.qs[+qi];
+  S.leitura.resp[qid] = {esc:k, ok:!!q.o[k].ok, em:new Date().toISOString()};
+  const fimAgora = !S.leitura.concluido && Object.keys(S.leitura.resp).length===TOTAL_PERG;
+  if(fimAgora) concluir('leitura');
+  salvar('leitura'); renderLeitura();
+  if(fimAgora) abrirModal('<div class="trofeu">🏆</div><h2>Leitura concluída!</h2><p>Você percorreu a viagem inteira! 🥪 O <b>Mapa Mental</b> foi destravado! ✨</p>', [{t:'🧠 Ir para o Mapa Mental', cls:'btn', fn:()=>ir('mapa')},{t:'Ficar aqui', cls:'btn claro'}]);
+}
+
+function renderVila(){
+  const v = $('vila'); if(!v) return;
+  v.innerHTML = BLOCOS.map((b,j)=>`<div class="ret ${blocoFeito(b)?'costurado':''}" style="--c:${b.cor}" title="${j+1}. ${b.titulo}">${b.emoji}<small>${j+1}</small></div>`).join('');
+}
+
+// ---------- MAPA MENTAL ----------
+function renderMapa(){
+  const box = $('ramosMapa'); box.innerHTML = '';
+  RAMOS.forEach(r=>{
+    const d = document.createElement('div'); d.className='ramo'; d.style.setProperty('--c', r.cor);
+    let h = `<h4>${r.nome}</h4>`;
+    r.nos.forEach(n=>{
+      if(typeof n==='string'){ h += `<div class="no">• ${n}</div>`; return; }
+      h += '<div class="no">• ' + n.map(p=>{
+        if(typeof p==='string') return p;
+        const st = S.mapa.pecas[p.id];
+        if(st && st.feita) return `<span class="lacuna feita"><span>${p.certa}</span></span>`;
+        const ops = embaralhar([p.certa, p.errada], hashStr(p.id)+SEED_MAPA);
+        return `<span class="lacuna">` + ops.map(o=>`<button data-p="${p.id}" data-v="${o}">${o}</button>`).join('<span style="align-self:center">ou</span>') + `</span>`;
+      }).join('') + '</div>';
+    });
+    d.innerHTML = h; box.appendChild(d);
+  });
+  box.querySelectorAll('.lacuna button').forEach(bt=>bt.onclick = ()=>encaixar(bt));
+  const f = pecasFeitas();
+  $('contadorMapa').textContent = f===TOTAL_PECAS ? '🧠 Mapa completo!' : `🧩 Mapa: ${f} de ${TOTAL_PECAS} peças encaixadas`;
+  $('mapa').classList.toggle('incompleto', f<TOTAL_PECAS);
+  $('mapa').classList.toggle('completo', f===TOTAL_PECAS);
+  $('mapaFim').style.display = f===TOTAL_PECAS ? 'block' : 'none';
+}
+function encaixar(bt){
+  const p = PECAS.find(x=>x.id===bt.dataset.p); const st = S.mapa.pecas[p.id] || {feita:false, tentou:false};
+  if(bt.dataset.v===p.certa){
+    st.feita = true; st.deprimeira = !st.tentou; st.em = new Date().toISOString(); S.mapa.pecas[p.id] = st;
+    const fimAgora = !S.mapa.concluido && pecasFeitas()===TOTAL_PECAS;
+    if(fimAgora) concluir('mapa');
+    salvar('mapa'); renderMapa();
+    if(fimAgora) abrirModal('<div class="trofeu">🧠</div><h2>Mapa completo!</h2><p>Você montou o mapa inteiro. O <b>Verdadeiro ou Falso</b> foi destravado! ✨</p>', [{t:'✅ Jogar Verdadeiro ou Falso', cls:'btn', fn:()=>ir('vf')},{t:'Ver o mapa', cls:'btn claro'}]);
+  } else {
+    st.tentou = true; S.mapa.pecas[p.id] = st; salvar('mapa');
+    bt.classList.remove('erro'); void bt.offsetWidth; bt.classList.add('erro');
+  }
+}
+
+// ---------- VERDADEIRO OU FALSO ----------
+let rodada = null;
+function novaRodada(){ const idx = embaralhar(VF.map((_,i)=>i), (Math.random()*1e9)>>>0).slice(0,12); rodada = {itens:idx, i:0, acertos:0, respondida:null}; renderVF(); }
+function estrelas(pct){ const n = Math.round(pct/20); return '⭐'.repeat(n) + '☆'.repeat(5-n); }
+function renderVF(){
+  const box = $('vfJogo');
+  if(!rodada){
+    box.innerHTML = `<h2>✅ Verdadeiro ou Falso</h2><p>Vou mostrar <b>12 frases</b> sobre a viagem do sanduíche. Para cada uma, diga se é <b>Verdadeira</b> ou <b>Falsa</b>. Depois de cada resposta aparece a explicação.</p>
+      ${S.vf.melhor!==null?`<p>🏅 Seu melhor placar: <b>${S.vf.melhor}%</b> ${estrelas(S.vf.melhor)} · rodadas jogadas: ${S.vf.rodadas}</p>`:''}
+      <div style="text-align:center"><button class="btn faisca" id="btVfComecar">▶️ Começar rodada</button></div>`;
+    $('btVfComecar').onclick = novaRodada; return;
+  }
+  if(rodada.i >= rodada.itens.length){
+    const pct = Math.round(rodada.acertos/rodada.itens.length*100);
+    box.innerHTML = `<div class="placar-final"><div class="trofeu">🏆</div><h2>Rodada completa!</h2><p>Você acertou <b>${rodada.acertos} de ${rodada.itens.length}</b> — <b>${pct}%</b></p><p class="estrelas">${estrelas(pct)}</p><p>🏅 Melhor placar: ${S.vf.melhor}%</p>
+      <button class="btn fio" id="btVfDeNovo">🔁 Jogar de novo</button> <button class="btn faisca" id="btVfResumo">🗺️ Agora revise no Resumo!</button></div>`;
+    $('btVfDeNovo').onclick = novaRodada; $('btVfResumo').onclick = ()=>ir('resumo'); return;
+  }
+  const it = VF[rodada.itens[rodada.i]];
+  let h = `<div class="sub">Frase ${rodada.i+1} de ${rodada.itens.length} · ✔️ ${rodada.acertos} acertos</div><div class="barra"><div style="width:${rodada.i/rodada.itens.length*100}%"></div></div>
+    <div class="vf-frase">"${it.f}"</div>`;
+  if(rodada.respondida===null){
+    h += `<div class="vf-bts"><button class="btn" id="btV">👍 Verdadeiro</button><button class="btn faisca" id="btF">👎 Falso</button></div>`;
+    box.innerHTML = h; $('btV').onclick = ()=>responderVF(1); $('btF').onclick = ()=>responderVF(0);
+  } else {
+    const acertou = rodada.respondida===it.v;
+    h += `<div class="fb ${acertou?'ok':'no'}">${acertou?'🎉 Acertou!':'💭 Não foi dessa vez.'} ${it.e}</div><div style="text-align:center;margin-top:10px"><button class="btn fio" id="btVfProx">${rodada.i+1<rodada.itens.length?'➡️ Próxima frase':'🏁 Ver resultado'}</button></div>`;
+    box.innerHTML = h; $('btVfProx').onclick = ()=>{ rodada.i++; rodada.respondida=null; if(rodada.i>=rodada.itens.length) fimRodada(); renderVF(); };
+  }
+}
+function responderVF(v){ const it = VF[rodada.itens[rodada.i]]; rodada.respondida = v; if(v===it.v) rodada.acertos++; renderVF(); }
+function fimRodada(){
+  const pct = Math.round(rodada.acertos/rodada.itens.length*100);
+  S.vf.rodadas = (S.vf.rodadas||0)+1; S.vf.melhor = Math.max(S.vf.melhor||0, pct);
+  S.vf.historico = (S.vf.historico||[]).concat([{pct, em:new Date().toISOString()}]).slice(-20);
+  const primeira = !S.vf.concluido; concluir('vf'); salvar('vf');
+  if(primeira) setTimeout(()=>abrirModal('<div class="trofeu">🗺️</div><h2>Resumo destravado!</h2><p>Agora revise tudo no <b>Resumo</b> antes do Simulado.</p>', [{t:'🗺️ Ir para o Resumo', cls:'btn', fn:()=>ir('resumo')},{t:'Ficar aqui', cls:'btn claro'}]), 200);
+}
+
+// ---------- RESUMO ----------
+function renderResumo(){
+  $('relampago').innerHTML = RELAMPAGO.map((r,i)=>`<button class="op" data-r="${i}">⚡ ${r[0]}</button><div class="resp-oculta" id="rel${i}">👉 ${r[1]}</div>`).join('');
+  document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{ const el=$('rel'+b.dataset.r); el.style.display = el.style.display==='block'?'none':'block'; });
+  atualizarBotaoResumo();
+}
+function medirRolagem(){
+  if(abaAtual!=='resumo') return;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h<=0 ? 100 : Math.min(100, Math.round(window.scrollY/h*100));
+  if(pct > (S.resumo.maxRolagem||0)){ S.resumo.maxRolagem = pct; salvar('resumo'); }
+  atualizarBotaoResumo();
+}
+function atualizarBotaoResumo(){
+  const bt = $('btLiResumo'); const pode = S.resumo.concluido || (S.resumo.maxRolagem||0) >= 90;
+  bt.disabled = !pode || S.resumo.concluido;
+  bt.textContent = S.resumo.concluido ? '✅ Resumo lido!' : '✅ Li o resumo até o fim';
+  $('txtLiResumo').textContent = S.resumo.concluido ? 'Concluído em '+dataBR(S.resumo.concluidoEm)+'. O Simulado está aberto!' : (pode ? 'Pode clicar!' : 'O botão acende quando você chegar ao fim da página.');
+}
+function liResumo(){
+  if(S.resumo.concluido) return;
+  concluir('resumo'); salvar('resumo'); atualizarBotaoResumo();
+  abrirModal('<div class="trofeu">📝</div><h2>Simulado destravado!</h2><p>Agora é hora de mostrar o que aprendeu. Boa sorte, jovem aprendiz!</p>', [{t:'📝 Ir para o Simulado', cls:'btn', fn:()=>ir('simulado')},{t:'Revisar mais um pouco', cls:'btn claro'}]);
+}
+
+// ---------- SIMULADO ----------
+function opsSim(qi){ const q = SIM[qi]; const base = q.o.map((o,k)=>({k, t:o[0], ok:o.length===3, w:o.length===3?o[2]:o[1]})); return embaralhar(base, hashStr('sim'+qi)+SEED_SIM); }
+function renderSimulado(){
+  const box = $('questoesSim'); box.innerHTML = '';
+  SIM.forEach((q,qi)=>{
+    const d = document.createElement('div'); d.className = 'card';
+    const r = S.simulado.resp[qi];
+    let h = `<b>Questão ${qi+1}.</b> ${q.q}<div class="opcoes" style="margin-top:8px">`;
+    opsSim(qi).forEach((o,pi)=>{
+      let cls='op'; if(r===o.k) cls+=' sel';
+      if(S.simulado.enviado){ cls='op'+(o.ok?' certa':(r===o.k?' errada':' cinza')); }
+      h += `<button class="${cls}" ${S.simulado.enviado?'disabled':''} data-sq="${qi}" data-k="${o.k}">${LETRAS[pi]}) ${o.t}</button>`;
+    });
+    d.innerHTML = h + '</div>'; box.appendChild(d);
+  });
+  if(!S.simulado.enviado) box.querySelectorAll('[data-sq]').forEach(b=>b.onclick=()=>{ S.simulado.resp[b.dataset.sq] = +b.dataset.k; salvar('simulado'); renderSimulado(); });
+  const n = Object.keys(S.simulado.resp).length;
+  $('barraSim').style.width = (n/SIM.length*100)+'%';
+  $('txtSim').textContent = S.simulado.enviado ? `Enviado em ${dataBR(S.simulado.enviadoEm)}` : `${n} de ${SIM.length} respondidas`;
+  $('envioSim').style.display = S.simulado.enviado ? 'none' : 'block';
+  renderResultado();
+}
+function gerarCodigo(ac){ const L='ABCDEFGHJKLMNPQRSTUVWXYZ'; const r=()=>L[Math.floor(Math.random()*L.length)]; return `SIM-${String(ac).padStart(2,'0')}-${r()}${r()}`; }
+function enviarSim(){
+  const falta = SIM.map((_,i)=>i).filter(i=>S.simulado.resp[i]===undefined);
+  if(falta.length){ abrirModal(`<div class="trofeu">✏️</div><h2>Ainda faltam ${falta.length} questões</h2><p>Responda as questões: <b>${falta.map(i=>i+1).join(', ')}</b>.</p>`); return; }
+  abrirModal('<h2>Enviar o Simulado?</h2><p>Depois de enviar, não dá para mudar as respostas.</p>', [{t:'📨 Enviar', cls:'btn faisca', fn:confirmarEnvio},{t:'Revisar antes', cls:'btn claro'}]);
+}
+function confirmarEnvio(){
+  let ac = 0; SIM.forEach((q,qi)=>{ if(q.o[S.simulado.resp[qi]].length===3) ac++; });
+  S.simulado.acertos = ac; S.simulado.enviado = true; S.simulado.enviadoEm = new Date().toISOString();
+  if(!S.simulado.codigo) S.simulado.codigo = gerarCodigo(ac);
+  concluir('simulado'); salvar('simulado'); renderSimulado();
+  setTimeout(()=>{ const el=$('resultadoSim'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 100);
+}
+function renderResultado(){
+  const box = $('resultadoSim');
+  if(!S.simulado.enviado){ box.innerHTML=''; return; }
+  const ac = S.simulado.acertos; const pct = Math.round(ac/SIM.length*100);
+  let h = `<div class="card placar-final"><div class="trofeu">${pct>=70?'🏆':'💪'}</div><h2>Você acertou ${ac} de ${SIM.length} (${pct}%)</h2><p class="estrelas">${estrelas(pct)}</p>
+    <p>${pct>=70?'Mandou muito bem!':'Continue treinando: releia o Resumo e confira o gabarito abaixo.'}</p>
+    <p>Seu código para os pais: <b style="font-size:1.3em;color:var(--fio2)">${S.simulado.codigo}</b></p></div>
+    <div class="card"><h2>📗 Gabarito comentado</h2><p class="sub">A certa aparece em verde. As outras aparecem em cinza, com a explicação do erro. A sua resposta tem contorno azul. O gabarito também está no <a href="gabarito_simulado.html" target="_blank">arquivo separado</a>.</p>`;
+  SIM.forEach((q,qi)=>{
+    const r = S.simulado.resp[qi]; const ops = opsSim(qi); const acertou = q.o[r].length===3;
+    h += `<div class="gab-q"><b>${acertou?'✅':'❌'} Questão ${qi+1}.</b> ${q.q}`;
+    ops.forEach((o,pi)=>{ h += `<div class="gab-op ${o.ok?'certa':'cinza'} ${r===o.k?'marcada':''}">${o.ok?'✔️':'✖️'} <b>${LETRAS[pi]}) ${o.t}</b>${r===o.k?' <i>(sua resposta)</i>':''}<br><span>${o.w}</span></div>`; });
+    h += `</div>`;
+  });
+  box.innerHTML = h + '</div>';
+}
+
+// ---------- PAINEL / RELATÓRIO / EXPORTAR ----------
+function atualizarPainel(){
+  const datas = ['leitura','mapa','vf','resumo','simulado'].map(n=>S[n]&&S[n].salvoEm).filter(Boolean).sort();
+  const el = $('painelSalvar'); if(el) el.textContent = datas.length ? `Progresso salvo neste aparelho. Último salvamento: ${dataBR(datas[datas.length-1])}` : 'Seu progresso é salvo sozinho neste aparelho.';
+}
+function abrirRelatorio(){
+  const cod = $('codPais').value.trim().toUpperCase(); const area = $('areaPais');
+  const ehPais = cod===CODIGO_PAIS; const ehSim = S.simulado.codigo && cod===S.simulado.codigo;
+  if(!ehPais && !ehSim){ area.innerHTML = '<p class="fb no">Código não reconhecido. Use o código do Simulado (SIM-…) ou o código da família.</p>'; return; }
+  const resp = Object.values(S.leitura.resp); const lAc = resp.filter(r=>r.ok).length;
+  const errLeit = []; BLOCOS.forEach(b=>b.qs.forEach((q,qi)=>{ const r=S.leitura.resp[b.id+'_'+qi]; if(r && !r.ok) errLeit.push(b.titulo+' – '+q.q); }));
+  const pecasPrim = PECAS.filter(p=>S.mapa.pecas[p.id] && S.mapa.pecas[p.id].feita && S.mapa.pecas[p.id].deprimeira).length;
+  const errSim = S.simulado.enviado ? SIM.map((q,qi)=>q.o[S.simulado.resp[qi]].length===3?null:qi+1).filter(Boolean) : [];
+  let h = `<table class="rel"><tr><th>Material</th><th>Resultado</th></tr>
+   <tr><td>📖 Leitura Guiada</td><td>${resp.length} de ${TOTAL_PERG} respondidas · ${lAc} acertos de primeira${errLeit.length?'<br><span class="sub">Errou: '+errLeit.join('; ')+'</span>':''}</td></tr>
+   <tr><td>🧠 Mapa Mental</td><td>${pecasFeitas()} de ${TOTAL_PECAS} peças encaixadas · <b>Mapa Mental: ${pecasPrim} de ${TOTAL_PECAS} peças encaixadas de primeira</b></td></tr>
+   <tr><td>✅ Verdadeiro ou Falso</td><td>${S.vf.melhor!==null?'Melhor placar: '+S.vf.melhor+'% · rodadas: '+S.vf.rodadas:'Ainda não jogou'}</td></tr>
+   <tr><td>🗺️ Resumo</td><td>Rolagem máxima: ${S.resumo.maxRolagem||0}% · ${S.resumo.concluido?'marcou "li até o fim"':'não marcou "li até o fim"'}</td></tr>
+   <tr><td>📝 Simulado</td><td>${S.simulado.enviado?`${S.simulado.acertos} de ${SIM.length} (${Math.round(S.simulado.acertos/SIM.length*100)}%) · código ${S.simulado.codigo}${errSim.length?'<br><span class="sub">Errou as questões: '+errSim.join(', ')+'</span>':''}`:'Ainda não enviado'}</td></tr>
+   <tr><td>🛤️ Trilha</td><td>${ETAPAS.map(e=>`${e.ic} ${e.nome}: ${feito(e.id)?'✅ concluída em '+dataBR(S[e.id].concluidoEm):'⏳ não concluída'}`).join('<br>')}
+     <br>${S.trilha.liberadoPelosPais?'🔓 Trilha liberada pelos pais em '+dataBR(S.trilha.liberadoEm):'🔒 Trilha não liberada pelos pais'}
+     ${S.trilha.historico.length?'<br><span class="sub">Histórico: '+S.trilha.historico.map(x=>x.acao+' em '+dataBR(x.em)).join('; ')+'</span>':''}</td></tr></table>`;
+  if(ehPais){
+    h += S.trilha.liberadoPelosPais
+      ? `<p class="caixa">🔓 <b>Trilha liberada pelos pais</b></p><button class="btn claro" id="btTrancar">🔒 Trancar de novo</button>`
+      : `<button class="btn fio" id="btLiberar">🔓 Liberar todos os materiais</button>`;
+  }
+  area.innerHTML = h;
+  if($('btLiberar')) $('btLiberar').onclick = ()=>{ S.trilha.liberadoPelosPais=true; S.trilha.liberadoEm=new Date().toISOString(); S.trilha.historico.push({acao:'liberou', em:S.trilha.liberadoEm}); gravar(K.trilha,S.trilha); renderTrilha(); abrirRelatorio(); };
+  if($('btTrancar')) $('btTrancar').onclick = ()=>{ S.trilha.liberadoPelosPais=false; S.trilha.historico.push({acao:'trancou de novo', em:new Date().toISOString()}); gravar(K.trilha,S.trilha); renderTrilha(); abrirRelatorio(); };
+}
+function exportar(){
+  const dados = {kit:SLUG, titulo:'A Viagem do Sanduíche — Ciências 5º ano', exportadoEm:new Date().toISOString(), leitura:S.leitura, mapa:S.mapa, vf:S.vf, resumo:S.resumo, simulado:S.simulado, trilha:S.trilha};
+  const blob = new Blob([JSON.stringify(dados,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'progresso_viagem_do_sanduiche.json'; document.body.appendChild(a); a.click(); a.remove();
+}
+function importar(arq){
+  const fr = new FileReader();
+  fr.onload = ()=>{ try{ const d = JSON.parse(fr.result); if(d.kit!==SLUG) throw 0;
+      ['leitura','mapa','vf','resumo','simulado','trilha'].forEach(n=>{ if(d[n]) gravar(K[n], d[n]); });
+      carregar(); renderTudo(); abrirModal('<h2>📤 Progresso importado!</h2>');
+    }catch(e){ abrirModal('<h2>Arquivo não reconhecido</h2><p>Escolha o arquivo exportado deste kit.</p>'); } };
+  fr.readAsText(arq);
+}
+function zerarTudo(){
+  abrirModal('<h2>🗑️ Zerar tudo?</h2><p>Todo o progresso deste kit será apagado neste aparelho.</p>', [{t:'Sim, zerar', cls:'btn faisca', fn:()=>{ Object.values(K).forEach(apagar); carregar(); rodada=null; renderTudo(); ir('inicio'); }},{t:'Cancelar', cls:'btn claro'}]);
+}
+
+function renderTudo(){ renderLeitura(); renderMapa(); renderVF(); renderResumo(); renderSimulado(); atualizarPainel(); renderTrilha(); }
+function iniciar(){
+  carregar(); renderTudo();
+  $('btExportar').onclick = exportar; $('btImportar').onclick = ()=>$('arqImportar').click();
+  $('arqImportar').onchange = e=>{ if(e.target.files[0]) importar(e.target.files[0]); e.target.value=''; };
+  $('btZerar').onclick = zerarTudo; $('btRelatorio').onclick = abrirRelatorio;
+  $('codPais').addEventListener('keydown', e=>{ if(e.key==='Enter') abrirRelatorio(); });
+  $('btLiResumo').onclick = liResumo; $('btEnviarSim').onclick = enviarSim;
+  window.addEventListener('scroll', ()=>{ if(abaAtual==='resumo') medirRolagem(); }, {passive:true});
+  window.addEventListener('hashchange', ()=>{ const h = location.hash.replace('#',''); if(h) ir(h); });
+  const h0 = location.hash.replace('#',''); ir(h0 || 'inicio');
+}
+iniciar();
+</script>
+</body>
+</html>
